@@ -1,7 +1,7 @@
 /*!
  * \file Game.cpp
  * \brief implementation of Game
- * \author Samuel Buchet
+ * \author smbct
  * \date 08.09.2016
  */
 

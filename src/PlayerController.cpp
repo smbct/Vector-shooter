@@ -1,7 +1,7 @@
 /*!
 * \file PlayerController.cpp
 * \brief PlayerController class implementation
-* \author Samuel Buchet
+* \author smbct
 * \date 08.10.2016
 */
 

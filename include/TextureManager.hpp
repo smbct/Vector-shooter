@@ -1,7 +1,7 @@
 /*!
  * \file TextureManager.hpp
  * \brief class definitation for managing all graphical assets fo the game
- * \author Samuel Buchet
+ * \author smbct
  * \date 08.09.2016
  */
 
