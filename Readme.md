@@ -1,6 +1,6 @@
 # Vector shooter
 
-This is a little shooter game with starship.
+This is a little shooter game with starships.
 It has been created from :
 [this tuto](http://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-xna--gamedev-10559)
 
