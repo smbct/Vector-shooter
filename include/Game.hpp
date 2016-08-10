@@ -45,10 +45,11 @@ class Game {
         EntityManager _entityManager;
         PlayerController _playerController;
 
-
         sf::Clock _clock;
         const double _timeStep;
         double _remainingTime;
+
+        sf::Sprite _cursor;
 
 };
 

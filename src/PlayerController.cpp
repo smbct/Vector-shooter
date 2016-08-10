@@ -15,10 +15,11 @@ using namespace sf;
 
 /*----------------------------------------------------------------------------*/
 PlayerController::PlayerController(sf::Window& input) :
-_speed(500.),
+_speed(600.),
 _root2(sqrt(2.)),
 _input(input),
-_player(nullptr)
+_player(nullptr),
+_cursor(nullptr)
 {
 
 }
@@ -26,6 +27,11 @@ _player(nullptr)
 /*----------------------------------------------------------------------------*/
 void PlayerController::setPlayerEntity(Entity* entity) {
     _player = entity;
+}
+
+/*----------------------------------------------------------------------------*/
+void PlayerController::setCursor(sf::Sprite& cursor) {
+    _cursor = &cursor;
 }
 
 /*----------------------------------------------------------------------------*/
@@ -66,6 +72,7 @@ void PlayerController::update(double elapsedTime) {
         angle = -90.;
     }
 
+    /* move at a constant speed */
     if(abs(dir.x) > 0.5 && abs(dir.y) > 0.5) {
         dir.x /= _root2;
         dir.y /= _root2;
@@ -74,7 +81,12 @@ void PlayerController::update(double elapsedTime) {
     dir.x *= _speed*elapsedTime;
     dir.y *= _speed*elapsedTime;
 
+    /* update player position */
     _player->move(dir);
     _player->setRotation(angle);
+
+    /* update cursor position */
+    sf::Vector2i mouse = Mouse::getPosition(_input);
+    _cursor->setPosition(static_cast<float>(mouse.x), static_cast<float>(mouse.y));
 
 }

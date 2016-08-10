@@ -25,6 +25,11 @@ class PlayerController {
         void setPlayerEntity(Entity* entity);
 
         /*!
+         * \brief set the cursor to move
+         */
+        void setCursor(sf::Sprite& cursor);
+
+        /*!
          * \brief update the player
          */
         void update(double elapsedTime);
@@ -34,6 +39,7 @@ class PlayerController {
         const double _root2;
         sf::Window& _input;
         Entity* _player;
+        sf::Sprite* _cursor;
 
 };
 
