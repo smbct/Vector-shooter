@@ -15,8 +15,7 @@ using namespace std;
 
 /*----------------------------------------------------------------------------*/
 Player::Player(TextureManager& textureManager, EntityManager& entityManager, sf::Window& input) :
-Entity(textureManager.getTexture("Art/Player.png"), 20),
-_entityManager(entityManager),
+Entity(entityManager, textureManager.getTexture("Art/Player.png"), 20),
 _input(input),
 _speed(600.),
 _root2(sqrt(2))
@@ -27,11 +26,9 @@ _root2(sqrt(2))
 /*----------------------------------------------------------------------------*/
 void Player::update(double elapsedTime) {
 
-    cout << "test Player" << endl;
-
     sf::Vector2f dir(0., 0.);
 
-    double angle =getRotation();
+    double angle = getRotation();
 
     if(Keyboard::isKeyPressed(Keyboard::Z)) {
         dir.y = -1.;

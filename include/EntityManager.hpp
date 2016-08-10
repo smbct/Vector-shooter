@@ -11,6 +11,7 @@
 #include <list>
 
 #include "Entity.hpp"
+#include "Player.hpp"
 
 /*!
  * \class EntityManager
@@ -34,10 +35,10 @@ class EntityManager {
         void addEntity(Entity* entity);
 
         /*!
-         * \brief add the entity which will be played
-         * \param entity the player entity
+         * \brief add the player
+         * \param player the player
          */
-        void addPlayer(Entity* player);
+        void addEntity(Player* player);
 
         /*!
          * \brief update all entities
@@ -55,9 +56,11 @@ class EntityManager {
 
         void entityUpdate(double elapsedTime);
 
+        void removeDead();
+
     private:
         std::list<Entity*> _entities;
-        Entity* _player;
+        Player* _player;
         std::list<Entity*> _enemies;
 
 };

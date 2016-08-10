@@ -9,6 +9,9 @@
 
 #include <SFML/Graphics.hpp>
 
+/* forward declaration */
+class EntityManager;
+
 /*!
  * \class Entity
  * \brief interacting element of the game, base class
@@ -22,9 +25,11 @@ class Entity : public sf::Sprite {
         /*!
          * \brief constructor
          */
-        Entity(const sf::Texture& texture, double radius);
+        Entity(EntityManager& entityManager, const sf::Texture& texture, double radius);
 
         virtual void update(double elapsedTime);
+
+        virtual void collideWith(const Entity& entity);
 
         /*!
          * \brief entity alive or not, if dead, should be removed
@@ -38,6 +43,12 @@ class Entity : public sf::Sprite {
          */
         void move(const sf::Vector2f& dir);
 
+        /*!
+         * \brief get the type of the entity
+         * \return the type of the entity
+         */
+        Type type();
+
     public:
 
         /*!
@@ -49,6 +60,7 @@ class Entity : public sf::Sprite {
         static bool collision(const Entity& left, const Entity& right);
 
     protected:
+        EntityManager& _entityManager;
         double _radius;
         bool _alive;
         Type _type;
