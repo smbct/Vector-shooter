@@ -24,6 +24,8 @@ class Entity : public sf::Sprite {
          */
         Entity(const sf::Texture& texture, double radius);
 
+        virtual void update(double elapsedTime);
+
         /*!
          * \brief entity alive or not, if dead, should be removed
          * \return true if the entity is alive

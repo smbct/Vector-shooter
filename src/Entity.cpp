@@ -7,6 +7,8 @@
 
 #include "Entity.hpp"
 
+#include <iostream>
+
 using namespace std;
 using namespace sf;
 
@@ -22,7 +24,6 @@ _type(None)
     orig.x = getTextureRect().width/2.;
     orig.y = getTextureRect().height/2.;
     setOrigin(orig);
-
 }
 
 /******************************************************************************/
@@ -41,6 +42,11 @@ bool Entity::alive() {
 /*----------------------------------------------------------------------------*/
 void Entity::move(const Vector2f& dir) {
     setPosition(getPosition() + dir);
+}
+
+/*----------------------------------------------------------------------------*/
+void Entity::update(double elapsedTime) {
+    cout << "test entites" << endl;
 }
 
 /******************************************************************************/

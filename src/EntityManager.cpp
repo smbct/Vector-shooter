@@ -43,9 +43,11 @@ void EntityManager::addPlayer(Entity* player) {
 /******************************************************************************/
 
 /*----------------------------------------------------------------------------*/
-void EntityManager::update() {
+void EntityManager::update(double elapsedTime) {
 
     collisions();
+
+    entityUpdate(elapsedTime);
 
 }
 
@@ -62,6 +64,13 @@ void EntityManager::collisions() {
             }
 
         }
+    }
+}
+
+/*----------------------------------------------------------------------------*/
+void EntityManager::entityUpdate(double elapsedTime) {
+    for(auto entity : _entities) {
+        entity->update(elapsedTime);
     }
 }
 
