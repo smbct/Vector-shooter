@@ -32,9 +32,8 @@ void EntityManager::addEntity(Entity* entity) {
     _entities.push_back(entity);
 }
 
-/*----------------------------------------------------------------------------*/
-void EntityManager::addPlayer(Entity* player) {
-    addEntity(player);
+void EntityManager::addEntity(Player* player) {
+    _entities.push_back(player);
     _player = player;
 }
 
@@ -45,9 +44,10 @@ void EntityManager::addPlayer(Entity* player) {
 /*----------------------------------------------------------------------------*/
 void EntityManager::update(double elapsedTime) {
 
-    collisions();
-
     entityUpdate(elapsedTime);
+
+    collisions();
+    removeDead();
 
 }
 
@@ -60,11 +60,35 @@ void EntityManager::collisions() {
         for(auto other : _entities) {
 
             if(entity != other && Entity::collision(*entity, *other)) {
-                cout << "send collision event" << endl;
+                entity->collideWith(*other);
+                other->collideWith(*entity);
             }
 
         }
     }
+}
+
+/*----------------------------------------------------------------------------*/
+void EntityManager::removeDead() {
+
+    auto it = _entities.begin(), toRem = _entities.end();
+    bool rem = false;
+
+    while(it != _entities.end()) {
+        if(!(*it)->alive()) {
+            rem = true;
+            toRem = it;
+        }
+
+        it ++;
+
+        if(rem) {
+            delete *toRem; /* delete the entity */
+            _entities.erase(toRem); /* remove from the list */
+            rem = false;
+        }
+    }
+
 }
 
 /*----------------------------------------------------------------------------*/

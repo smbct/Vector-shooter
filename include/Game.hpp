@@ -12,7 +12,6 @@
 
 #include "TextureManager.hpp"
 #include "EntityManager.hpp"
-#include "Player.hpp"
 
 class Game {
 

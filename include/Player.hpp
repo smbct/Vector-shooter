@@ -26,7 +26,6 @@ class Player : public Entity {
         void update(double elapsedTime);
 
     private:
-        EntityManager& _entityManager;
         sf::Window& _input;
         const double _speed;
         const double _root2;

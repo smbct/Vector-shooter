@@ -7,6 +7,9 @@
 
 #include "Game.hpp"
 
+#include "Player.hpp"
+#include "Enemy.hpp"
+
 #include <iostream>
 
 using namespace std;
@@ -20,7 +23,13 @@ _remainingTime(0.),
 _cursor(_textureManager.getTexture("Art/Pointer.png"))
 {
     Player* player = new Player(_textureManager, _entityManager, _window);
-    _entityManager.addPlayer(player);
+    player->setPosition(150., 150.);
+    _entityManager.addEntity(player);
+
+
+    Seeker* seeker = new Seeker(_textureManager, _entityManager);
+    seeker->setPosition(600., 600.);
+    _entityManager.addEntity(seeker);
 
     _window.setMouseCursorVisible(false); /* make the default cursor invisible */
     _window.setVerticalSyncEnabled(true);
@@ -71,7 +80,7 @@ void Game::loop() {
     for(unsigned int done = 1; done <= nbFrame; done ++) {
 
         /* entities event */
-        _entityManager.update(elapsedTime);
+        _entityManager.update(_timeStep);
     }
 
 }

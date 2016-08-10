@@ -6,6 +6,7 @@
  */
 
 #include "Entity.hpp"
+#include "EntityManager.hpp"
 
 #include <iostream>
 
@@ -13,17 +14,18 @@ using namespace std;
 using namespace sf;
 
 /*----------------------------------------------------------------------------*/
-Entity::Entity(const sf::Texture& texture, double radius) :
+Entity::Entity(EntityManager& entityManager, const sf::Texture& texture, double radius) :
 Sprite(texture),
+_entityManager(entityManager),
 _radius(radius),
 _alive(true),
 _type(None)
 {
-
     Vector2f orig;
     orig.x = getTextureRect().width/2.;
     orig.y = getTextureRect().height/2.;
     setOrigin(orig);
+
 }
 
 /******************************************************************************/
@@ -33,6 +35,11 @@ _type(None)
 /*----------------------------------------------------------------------------*/
 bool Entity::alive() {
     return _alive;
+}
+
+/*----------------------------------------------------------------------------*/
+Entity::Type Entity::type() {
+    return _type;
 }
 
 /******************************************************************************/
@@ -46,7 +53,12 @@ void Entity::move(const Vector2f& dir) {
 
 /*----------------------------------------------------------------------------*/
 void Entity::update(double elapsedTime) {
-    cout << "test entites" << endl;
+
+}
+
+/*----------------------------------------------------------------------------*/
+void Entity::collideWith(const Entity& entity) {
+    _alive = false;
 }
 
 /******************************************************************************/
@@ -62,7 +74,7 @@ bool Entity::collision(const Entity& left, const Entity& right) {
     double distSq = vec.x*vec.x + vec.y*vec.y;
     double distMin = left._radius+right._radius;
 
-    res = distSq >= distMin*distMin;
+    res = (distSq <= distMin*distMin);
 
     return res;
 }
