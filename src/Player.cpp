@@ -1,45 +1,37 @@
 /*!
-* \file PlayerController.cpp
-* \brief PlayerController class implementation
+* \file Player.cpp
+* \brief Player class implementation
 * \author smbct
 * \date 08.10.2016
 */
 
-#include "PlayerController.hpp"
-#include <cmath>
+#include "Player.hpp"
+#include "EntityManager.hpp"
 
 #include <iostream>
 
-using namespace std;
 using namespace sf;
+using namespace std;
 
 /*----------------------------------------------------------------------------*/
-PlayerController::PlayerController(sf::Window& input) :
-_speed(600.),
-_root2(sqrt(2.)),
+Player::Player(TextureManager& textureManager, EntityManager& entityManager, sf::Window& input) :
+Entity(textureManager.getTexture("Art/Player.png"), 20),
+_entityManager(entityManager),
 _input(input),
-_player(nullptr),
-_cursor(nullptr)
+_speed(600.),
+_root2(sqrt(2))
 {
 
 }
 
 /*----------------------------------------------------------------------------*/
-void PlayerController::setPlayerEntity(Entity* entity) {
-    _player = entity;
-}
+void Player::update(double elapsedTime) {
 
-/*----------------------------------------------------------------------------*/
-void PlayerController::setCursor(sf::Sprite& cursor) {
-    _cursor = &cursor;
-}
-
-/*----------------------------------------------------------------------------*/
-void PlayerController::update(double elapsedTime) {
+    cout << "test Player" << endl;
 
     sf::Vector2f dir(0., 0.);
 
-    double angle = _player->getRotation();
+    double angle =getRotation();
 
     if(Keyboard::isKeyPressed(Keyboard::Z)) {
         dir.y = -1.;
@@ -81,12 +73,8 @@ void PlayerController::update(double elapsedTime) {
     dir.x *= _speed*elapsedTime;
     dir.y *= _speed*elapsedTime;
 
-    /* update player position */
-    _player->move(dir);
-    _player->setRotation(angle);
-
-    /* update cursor position */
-    sf::Vector2i mouse = Mouse::getPosition(_input);
-    _cursor->setPosition(static_cast<float>(mouse.x), static_cast<float>(mouse.y));
+    /* update position and angle */
+    move(dir);
+    setRotation(angle);
 
 }

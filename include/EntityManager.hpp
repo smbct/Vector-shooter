@@ -42,7 +42,7 @@ class EntityManager {
         /*!
          * \brief update all entities
          */
-        void update();
+        void update(double elapsedTime);
 
         /*!
          * \brief destructor, erase all entities
@@ -52,6 +52,8 @@ class EntityManager {
     private:
 
         void collisions();
+
+        void entityUpdate(double elapsedTime);
 
     private:
         std::list<Entity*> _entities;

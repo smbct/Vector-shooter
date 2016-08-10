@@ -15,15 +15,13 @@ using namespace sf;
 /*----------------------------------------------------------------------------*/
 Game::Game() :
 _window(VideoMode(1024, 768), "shooter"),
-_playerController(_window),
 _timeStep(1./60.),
 _remainingTime(0.),
 _cursor(_textureManager.getTexture("Art/Pointer.png"))
 {
-    Entity* player = new Entity(_textureManager.getTexture("Art/Player.png"), 20);
+    Player* player = new Player(_textureManager, _entityManager, _window);
     _entityManager.addPlayer(player);
-    _playerController.setPlayerEntity(player);
-    _playerController.setCursor(_cursor);
+
     _window.setMouseCursorVisible(false); /* make the default cursor invisible */
     _window.setVerticalSyncEnabled(true);
 }
@@ -71,11 +69,9 @@ void Game::loop() {
 
     /* simulate the game with a fixed time step */
     for(unsigned int done = 1; done <= nbFrame; done ++) {
-        /* controller update */
-        _playerController.update(_timeStep);
 
         /* entities event */
-        _entityManager.update();
+        _entityManager.update(elapsedTime);
     }
 
 }
@@ -89,6 +85,8 @@ void Game::draw() {
     /* draw all entities */
     _entityManager.drawEntities(_window);
 
-    /* draw the cursor */
+    /* update and draw the cursor */
+    sf::Vector2i mouse = Mouse::getPosition(_window);
+    _cursor.setPosition(static_cast<float>(mouse.x), static_cast<float>(mouse.y));
     _window.draw(_cursor);
 }
