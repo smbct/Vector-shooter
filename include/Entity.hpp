@@ -17,6 +17,8 @@ class Entity : public sf::Sprite {
 
     public:
 
+        enum Type {None, Player, Seeker, Wanderer, BlackHole};
+
         /*!
          * \brief constructor
          */
@@ -47,6 +49,7 @@ class Entity : public sf::Sprite {
     protected:
         double _radius;
         bool _alive;
+        Type _type;
 
 };
 

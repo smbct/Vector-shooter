@@ -14,7 +14,8 @@ using namespace sf;
 Entity::Entity(const sf::Texture& texture, double radius) :
 Sprite(texture),
 _radius(radius),
-_alive(true)
+_alive(true),
+_type(None)
 {
 
     Vector2f orig;

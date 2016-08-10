@@ -17,11 +17,15 @@ Game::Game() :
 _window(VideoMode(1024, 768), "shooter"),
 _playerController(_window),
 _timeStep(1./60.),
-_remainingTime(0.)
+_remainingTime(0.),
+_cursor(_textureManager.getTexture("Art/Pointer.png"))
 {
     Entity* player = new Entity(_textureManager.getTexture("Art/Player.png"), 20);
     _entityManager.addPlayer(player);
     _playerController.setPlayerEntity(player);
+    _playerController.setCursor(_cursor);
+    _window.setMouseCursorVisible(false); /* make the default cursor invisible */
+    _window.setVerticalSyncEnabled(true);
 }
 
 /*----------------------------------------------------------------------------*/
@@ -68,7 +72,7 @@ void Game::loop() {
     /* simulate the game with a fixed time step */
     for(unsigned int done = 1; done <= nbFrame; done ++) {
         /* controller update */
-        _playerController.update(elapsedTime);
+        _playerController.update(_timeStep);
 
         /* entities event */
         _entityManager.update();
@@ -84,4 +88,7 @@ void Game::draw() {
 
     /* draw all entities */
     _entityManager.drawEntities(_window);
+
+    /* draw the cursor */
+    _window.draw(_cursor);
 }
