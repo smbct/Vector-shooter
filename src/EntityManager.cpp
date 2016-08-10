@@ -7,6 +7,10 @@
 
 #include "EntityManager.hpp"
 
+#include <iostream>
+
+using namespace std;
+
 /*----------------------------------------------------------------------------*/
 EntityManager::EntityManager() {
 
@@ -34,9 +38,31 @@ void EntityManager::addPlayer(Entity* player) {
     _player = player;
 }
 
+/******************************************************************************/
+/*---------------------------------updating-----------------------------------*/
+/******************************************************************************/
+
 /*----------------------------------------------------------------------------*/
 void EntityManager::update() {
 
+    collisions();
+
+}
+
+/*----------------------------------------------------------------------------*/
+void EntityManager::collisions() {
+
+    /* dirty test */
+    /* TODO : more beautifull test */
+    for(auto entity : _entities) {
+        for(auto other : _entities) {
+
+            if(entity != other && Entity::collision(*entity, *other)) {
+                cout << "send collision event" << endl;
+            }
+
+        }
+    }
 }
 
 /*----------------------------------------------------------------------------*/

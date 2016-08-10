@@ -19,7 +19,7 @@ _playerController(_window),
 _timeStep(1./60.),
 _remainingTime(0.)
 {
-    Entity* player = new Entity(_textureManager.getTexture("Art/Player.png"), 18);
+    Entity* player = new Entity(_textureManager.getTexture("Art/Player.png"), 20);
     _entityManager.addPlayer(player);
     _playerController.setPlayerEntity(player);
 }

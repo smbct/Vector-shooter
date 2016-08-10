@@ -3,12 +3,13 @@ EXEC=shooter
 CC=g++
 CXX=g++
 LDLIBS=-lsfml-graphics -lsfml-window -lsfml-system
+CPPFLAGS=-I include
 
 OPTIONS=-std=c++11 -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter
 
 .PHONY = clean
 
-OBJECTS_FILES = main.o TextureManager.o Game.o Entity.o EntityManager.o PlayerController.o
+OBJECTS_FILES = main.o src/TextureManager.o src/Game.o src/Entity.o src/EntityManager.o src/PlayerController.o src/EnemyController.o
 
 gcc : CXXFLAGS= $(OPTIONS) -O3
 gcc : main
@@ -25,4 +26,4 @@ release : gcc
 main : $(OBJECTS_FILES)
 
 clean :
-	rm -f *.o
+	find . -name "*.o" -type f -delete

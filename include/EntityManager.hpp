@@ -50,6 +50,10 @@ class EntityManager {
         ~EntityManager();
 
     private:
+
+        void collisions();
+
+    private:
         std::list<Entity*> _entities;
         Entity* _player;
         std::list<Entity*> _enemies;
