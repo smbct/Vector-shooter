@@ -34,6 +34,15 @@ class Entity : public sf::Sprite {
          */
         void move(const sf::Vector2f& dir);
 
+    public:
+
+        /*!
+         * \brief detect a collision between two entities
+         * \param left one of the entity
+         * \param right the other entity
+         * \return true if the two entities collide
+         */
+        static bool collision(const Entity& left, const Entity& right);
 
     protected:
         double _radius;
