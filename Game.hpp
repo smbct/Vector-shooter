@@ -30,9 +30,9 @@ class Game {
     private:
 
         /*!
-         * \brief manage game loop : event, game logic, drawing
+         * \brief manage game loop : event, game logic
          */
-        void loop(double elapsedTime);
+        void loop();
 
         /*!
          * \brief draw the game
@@ -48,6 +48,7 @@ class Game {
 
         sf::Clock _clock;
         const double _timeStep;
+        double _remainingTime;
 
 };
 
