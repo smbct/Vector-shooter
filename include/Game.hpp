@@ -1,7 +1,7 @@
 /*!
  * \file Game.hpp
  * \brief Game class definition
- * \author Samuel Buchet
+ * \author smbct
  * \date 08.09.2016
  */
 

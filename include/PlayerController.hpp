@@ -1,7 +1,7 @@
 /*!
 * \file PlayerController.hpp
 * \brief PlayerController class definition, moving the player
-* \author Samuel Buchet
+* \author smbct
 * \date 08.10.2016
 */
 

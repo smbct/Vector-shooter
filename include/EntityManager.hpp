@@ -1,7 +1,7 @@
 /*!
  * \file EntityManager.hpp
  * \brief EntityManager class definition
- * \author Samuel Buchet
+ * \author smbct
  * \date 08.10.2016
  */
 

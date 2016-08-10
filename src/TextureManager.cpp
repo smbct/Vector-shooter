@@ -1,7 +1,7 @@
 /*!
  * \file TextureManager.cpp
  * \brief implementation of TextureManager
- * \author Samuel Buchet
+ * \author smbct
  * \date 08.09.2016
  */
 

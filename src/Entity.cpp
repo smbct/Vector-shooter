@@ -1,7 +1,7 @@
 /*!
  * \file Entity.cpp
  * \brief Implementation of Entity
- * \author Samuel Buchet
+ * \author smbct
  * \date 08.09.2016
  */
 

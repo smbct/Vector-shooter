@@ -1,7 +1,7 @@
 /*!
 * \file EnemyController.hpp
 * \brief class definitions for enemy control
-* \author Samuel Buchet
+* \author smbct
 * \date 08.10.2016
 */
 

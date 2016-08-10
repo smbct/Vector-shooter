@@ -1,7 +1,7 @@
 /*!
 * \file EnemyController.cpp
 * \brief implementations of enemy controllers
-* \author Samuel Buchet
+* \author smbct
 * \date 08.10.2016
 */
 

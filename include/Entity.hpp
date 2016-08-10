@@ -1,7 +1,7 @@
 /*!
 * \file Entity.hpp
 * \brief Entity class definition, managing interacting elements
-* \author Samuel Buchet
+* \author smbct
 * \date 08.09.2016
 */
 #ifndef ENTITY_HPP
