@@ -84,7 +84,7 @@ void Player::update(double elapsedTime) {
             createBullets();
             _clock.restart();
         } else {
-            if(_clock.getElapsedTime().asSeconds() > 0.05) {
+            if(_clock.getElapsedTime().asSeconds() > 0.1) {
                 createBullets();
                 _clock.restart();
             }
@@ -96,12 +96,10 @@ void Player::update(double elapsedTime) {
 }
 
 /*----------------------------------------------------------------------------*/
-void Player::collideWidth(const Entity& entity) {
+void Player::collideWith(const Entity& entity) {
     if(entity.type() != Entity::Bullet) {
         _alive = false;
     }
-
-    cout << "test Player" << endl;
 }
 
 /*----------------------------------------------------------------------------*/
@@ -117,8 +115,8 @@ void Player::createBullets() {
     dir.y /= len;
 
     Vector2f center(pos);
-    center.x += dir.x * 100.;
-    center.y += dir.y * 100.;
+    center.x += dir.x * 50.;
+    center.y += dir.y * 50.;
 
     /* orthogonal vector, used to create a gap between the bullets */
     Vector2f ortho(dir.y, -dir.x);

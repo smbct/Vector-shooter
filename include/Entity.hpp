@@ -44,6 +44,11 @@ class Entity : public sf::Sprite {
         void move(const sf::Vector2f& dir);
 
         /*!
+         * \brief kimm the entities
+         */
+        void kill();
+
+        /*!
          * \brief get the type of the entity
          * \return the type of the entity
          */

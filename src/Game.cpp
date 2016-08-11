@@ -18,6 +18,7 @@ using namespace sf;
 /*----------------------------------------------------------------------------*/
 Game::Game() :
 _window(VideoMode(1024, 768), "shooter"),
+_entityManager(static_cast<Vector2f>(_window.getSize())),
 _timeStep(1./60.),
 _remainingTime(0.),
 _cursor(_textureManager.getTexture("Art/Pointer.png"))

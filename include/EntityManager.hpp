@@ -21,7 +21,7 @@
 class EntityManager {
 
     public:
-        EntityManager();
+        EntityManager(const sf::Vector2f& worldSize);
 
         /*!
          * \brief draw all entities
@@ -53,7 +53,10 @@ class EntityManager {
 
         void removeDead();
 
+        void checkBoundary(Entity* entity);
+
     private:
+        sf::FloatRect _worldRect;
         std::list<Entity*> _entities;
         std::queue<Entity*> _added;
         Entity* _player;
