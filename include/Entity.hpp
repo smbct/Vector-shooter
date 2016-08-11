@@ -20,7 +20,7 @@ class Entity : public sf::Sprite {
 
     public:
 
-        enum Type {None, Player, Seeker, Wanderer, BlackHole};
+        enum Type {None, Player, Bullet, Seeker, Wanderer, BlackHole};
 
         /*!
          * \brief constructor
@@ -35,7 +35,7 @@ class Entity : public sf::Sprite {
          * \brief entity alive or not, if dead, should be removed
          * \return true if the entity is alive
          */
-        bool alive();
+        bool alive() const;
 
         /*!
          * \brief translate the entity
@@ -47,7 +47,7 @@ class Entity : public sf::Sprite {
          * \brief get the type of the entity
          * \return the type of the entity
          */
-        Type type();
+        Type type() const;
 
     public:
 

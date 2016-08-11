@@ -9,7 +9,7 @@ OPTIONS=-std=c++11 -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-para
 
 .PHONY = clean
 
-OBJECTS_FILES = main.o src/TextureManager.o src/Game.o src/Entity.o src/EntityManager.o src/Player.o src/Enemy.o
+OBJECTS_FILES = main.o src/TextureManager.o src/Game.o src/Entity.o src/EntityManager.o src/Player.o src/Enemy.o src/Bullet.o
 
 gcc : CXXFLAGS= $(OPTIONS) -O3
 gcc : main
