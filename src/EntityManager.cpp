@@ -10,9 +10,12 @@
 #include <iostream>
 
 using namespace std;
+using namespace sf;
 
 /*----------------------------------------------------------------------------*/
-EntityManager::EntityManager() {
+EntityManager::EntityManager(const sf::Vector2f& worldSize) :
+_worldRect(Vector2f(0., 0.), worldSize)
+{
 
 }
 
@@ -98,9 +101,19 @@ void EntityManager::removeDead() {
 }
 
 /*----------------------------------------------------------------------------*/
+void EntityManager::checkBoundary(Entity* entity) {
+    if(!_worldRect.intersects(entity->getGlobalBounds()) && entity->type() != Entity::Player) {
+        entity->kill();
+    }
+
+}
+
+/*----------------------------------------------------------------------------*/
 void EntityManager::entityUpdate(double elapsedTime) {
     for(auto entity : _entities) {
         entity->update(elapsedTime);
+        /* make sure the entity is still inside the playground */
+        checkBoundary(entity);
     }
 }
 

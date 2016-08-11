@@ -25,7 +25,7 @@ class Player : public Entity {
 
         void update(double elapsedTime);
 
-        virtual void collideWidth(const Entity& entity);
+        virtual void collideWith(const Entity& entity);
 
     private:
         void createBullets();

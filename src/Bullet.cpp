@@ -31,13 +31,15 @@ _dir(dir)
 
 /*----------------------------------------------------------------------------*/
 void Bullet::update(double elapsedTime) {
-
+    Vector2f delta = _dir;
+    delta.x *= elapsedTime*_speed;
+    delta.y *= elapsedTime*_speed;
+    move(delta);
 }
 
 /*----------------------------------------------------------------------------*/
-void Bullet::collideWidth(const Entity& entity) {
+void Bullet::collideWith(const Entity& entity) {
     if(entity.type() != Entity::Player && entity.type() != Entity::Bullet) {
         _alive = false;
     }
-    cout << "bullet test" << endl;
 }

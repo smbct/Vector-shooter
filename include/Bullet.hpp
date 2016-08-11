@@ -21,7 +21,7 @@ class Bullet : public Entity {
         Bullet(TextureManager& textureManager, EntityManager& entityManager, sf::Vector2f pos, sf::Vector2f dir);
         void update(double elapsedTime);
 
-        void collideWidth(const Entity& entity);
+        void collideWith(const Entity& entity);
 
     private:
         const double _speed;

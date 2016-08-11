@@ -51,6 +51,10 @@ void Entity::move(const Vector2f& dir) {
     setPosition(getPosition() + dir);
 }
 
+void Entity::kill() {
+    _alive = false;
+}
+
 /*----------------------------------------------------------------------------*/
 void Entity::update(double elapsedTime) {
 
@@ -58,8 +62,7 @@ void Entity::update(double elapsedTime) {
 
 /*----------------------------------------------------------------------------*/
 void Entity::collideWith(const Entity& entity) {
-    _alive = false;
-    cout << "entity test" << endl;
+    kill();
 }
 
 /******************************************************************************/
