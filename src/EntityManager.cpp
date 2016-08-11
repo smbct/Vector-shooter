@@ -29,13 +29,9 @@ void EntityManager::drawEntities(sf::RenderWindow& window) {
 
 /*----------------------------------------------------------------------------*/
 void EntityManager::addEntity(Entity* entity) {
-    _entities.push_back(entity);
+    _added.push(entity);
 }
 
-void EntityManager::addEntity(Player* player) {
-    _entities.push_back(player);
-    _player = player;
-}
 
 /******************************************************************************/
 /*---------------------------------updating-----------------------------------*/
@@ -49,15 +45,25 @@ void EntityManager::update(double elapsedTime) {
     collisions();
     removeDead();
 
+    /* add created entities */
+    while(!_added.empty()) {
+        Entity* created = _added.front();
+        _added.pop();
+        _entities.push_back(created);
+        if(created->type() == Entity::Player) {
+            _player = created;
+        }
+    }
+
 }
 
 /*----------------------------------------------------------------------------*/
 void EntityManager::collisions() {
 
     /* dirty test */
-    /* TODO : more beautifull test */
-    for(auto entity : _entities) {
-        for(auto other : _entities) {
+    /* TODO : better test, less comparisons */
+    for(Entity* entity : _entities) {
+        for(Entity* other : _entities) {
 
             if(entity != other && Entity::collision(*entity, *other)) {
                 entity->collideWith(*other);

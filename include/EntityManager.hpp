@@ -9,6 +9,7 @@
 #define ENTITY_MANAGER_HPP
 
 #include <list>
+#include <queue>
 
 #include "Entity.hpp"
 #include "Player.hpp"
@@ -35,12 +36,6 @@ class EntityManager {
         void addEntity(Entity* entity);
 
         /*!
-         * \brief add the player
-         * \param player the player
-         */
-        void addEntity(Player* player);
-
-        /*!
          * \brief update all entities
          */
         void update(double elapsedTime);
@@ -60,7 +55,8 @@ class EntityManager {
 
     private:
         std::list<Entity*> _entities;
-        Player* _player;
+        std::queue<Entity*> _added;
+        Entity* _player;
         std::list<Entity*> _enemies;
 
 };

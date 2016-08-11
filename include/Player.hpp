@@ -25,10 +25,18 @@ class Player : public Entity {
 
         void update(double elapsedTime);
 
+        virtual void collideWidth(const Entity& entity);
+
+    private:
+        void createBullets();
+
     private:
         sf::Window& _input;
+        TextureManager& _textureManager;
         const double _speed;
         const double _root2;
+        sf::Clock _clock;
+        bool _fire;
 
 };
 
