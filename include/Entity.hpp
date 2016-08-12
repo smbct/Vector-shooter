@@ -20,7 +20,7 @@ class Entity : public sf::Sprite {
 
     public:
 
-        enum Type {None, Player, Bullet, Seeker, Wanderer, BlackHole};
+        enum Type {None, Player, Bullet, Enemy, Seeker, Wanderer, BlackHole};
 
         /*!
          * \brief constructor

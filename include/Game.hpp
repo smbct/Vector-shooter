@@ -12,6 +12,7 @@
 
 #include "TextureManager.hpp"
 #include "EntityManager.hpp"
+#include "ScoreManager.hpp"
 
 class Game {
 
@@ -42,6 +43,7 @@ class Game {
         sf::RenderWindow _window;
         TextureManager _textureManager;
         EntityManager _entityManager;
+        ScoreManager _score;
 
         sf::Clock _clock;
         const double _timeStep;

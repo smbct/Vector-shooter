@@ -41,6 +41,16 @@ class EntityManager {
         void update(double elapsedTime);
 
         /*!
+         * \brief return the player
+         */
+        Entity& getPlayer();
+
+        /*!
+         * \brief return the world bounds
+         */
+        sf::FloatRect& getWorldBound();
+
+        /*!
          * \brief destructor, erase all entities
          */
         ~EntityManager();
