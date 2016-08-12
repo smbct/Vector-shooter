@@ -19,8 +19,11 @@ class Enemy : public Entity {
 
         virtual void collideWith(const Entity& entity);
 
+        virtual void update(double elapsedTime);
+
     protected:
         ScoreManager& _score;
+        sf::Vector2f _velocity;
 
 };
 
@@ -32,7 +35,7 @@ class Seeker : public Enemy {
         virtual void update(double elapsedTime);
 
     private:
-        double _speed;
+        double _acceleration;
 
 };
 
@@ -44,8 +47,9 @@ class Wanderer : public Enemy {
         virtual void update(double elapsedTime);
 
     private:
-        const double _speed;
+        const double _acceleration;
         double _dirAngle;
+        unsigned int _frame;
 
 };
 
