@@ -10,26 +10,42 @@
 
 #include "Entity.hpp"
 #include "TextureManager.hpp"
+#include "ScoreManager.hpp"
 
-class Seeker : public Entity {
+class Enemy : public Entity {
 
     public:
-        Seeker(TextureManager& textureManager, EntityManager& entityManager);
+        Enemy(EntityManager& entityManager, const sf::Texture& texture, double radius, ScoreManager& score);
 
-        virtual void update(double elapsedTime);
+        virtual void collideWith(const Entity& entity);
 
-    private:
+    protected:
+        ScoreManager& _score;
 
 };
 
-class Wanderer : public Entity {
+class Seeker : public Enemy {
 
     public:
-        Wanderer(TextureManager& textureManager, EntityManager& entityManager);
+        Seeker(TextureManager& textureManager, EntityManager& entityManager, ScoreManager& score);
 
         virtual void update(double elapsedTime);
 
     private:
+        double _speed;
+
+};
+
+class Wanderer : public Enemy {
+
+    public:
+        Wanderer(TextureManager& textureManager, EntityManager& entityManager, ScoreManager& score);
+
+        virtual void update(double elapsedTime);
+
+    private:
+        const double _speed;
+        double _dirAngle;
 
 };
 

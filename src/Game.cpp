@@ -23,14 +23,21 @@ _timeStep(1./60.),
 _remainingTime(0.),
 _cursor(_textureManager.getTexture("Art/Pointer.png"))
 {
+
+    /* init random generator */
+    srand(time(0));
+
     Player* player = new Player(_textureManager, _entityManager, _window);
     player->setPosition(150., 150.);
     _entityManager.addEntity(player);
 
-
-    Seeker* seeker = new Seeker(_textureManager, _entityManager);
+    Seeker* seeker = new Seeker(_textureManager, _entityManager, _score);
     seeker->setPosition(600., 600.);
     _entityManager.addEntity(seeker);
+
+    Wanderer* wanderer = new Wanderer(_textureManager, _entityManager, _score);
+    wanderer->setPosition(800., 600.);
+    _entityManager.addEntity(wanderer);
 
     _window.setMouseCursorVisible(false); /* make the default cursor invisible */
     _window.setVerticalSyncEnabled(true);
@@ -83,6 +90,9 @@ void Game::loop() {
         /* entities event */
         _entityManager.update(_timeStep);
     }
+
+    /* display the score */
+    cout << "score : " << _score.score() << endl;
 
 }
 

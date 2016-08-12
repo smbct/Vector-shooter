@@ -19,6 +19,20 @@ _worldRect(Vector2f(0., 0.), worldSize)
 
 }
 
+/******************************************************************************/
+/*-----------------------------getter methods---------------------------------*/
+/******************************************************************************/
+
+/*----------------------------------------------------------------------------*/
+Entity& EntityManager::getPlayer() {
+    return *_player;
+}
+
+/*----------------------------------------------------------------------------*/
+FloatRect& EntityManager::getWorldBound() {
+    return _worldRect;
+}
+
 /*----------------------------------------------------------------------------*/
 void EntityManager::drawEntities(sf::RenderWindow& window) {
     for(auto entity : _entities) {
@@ -67,12 +81,12 @@ void EntityManager::collisions() {
     /* TODO : better test, less comparisons */
     for(Entity* entity : _entities) {
         for(Entity* other : _entities) {
-
-            if(entity != other && Entity::collision(*entity, *other)) {
-                entity->collideWith(*other);
-                other->collideWith(*entity);
+            if(entity != other) {
+                if(entity->alive() && other->alive() && Entity::collision(*entity, *other)) {
+                    entity->collideWith(*other);
+                    other->collideWith(*entity);
+                }
             }
-
         }
     }
 }
@@ -102,8 +116,11 @@ void EntityManager::removeDead() {
 
 /*----------------------------------------------------------------------------*/
 void EntityManager::checkBoundary(Entity* entity) {
-    if(!_worldRect.intersects(entity->getGlobalBounds()) && entity->type() != Entity::Player) {
-        entity->kill();
+
+    if(entity->type() != Entity::Player && entity->type() != Entity::Seeker && entity->type() != Entity::Wanderer) {
+        if(!_worldRect.intersects(entity->getGlobalBounds())) {
+            entity->kill();
+        }
     }
 
 }

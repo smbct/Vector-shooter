@@ -16,7 +16,7 @@ using namespace std;
 
 /*----------------------------------------------------------------------------*/
 Player::Player(TextureManager& textureManager, EntityManager& entityManager, sf::Window& input) :
-Entity(entityManager, textureManager.getTexture("Art/Player.png"), 20),
+Entity(entityManager, textureManager.getTexture("Art/Player.png"), 10),
 _input(input),
 _textureManager(textureManager),
 _speed(600.),

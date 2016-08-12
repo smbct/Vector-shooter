@@ -15,7 +15,7 @@ using namespace sf;
 
 /*----------------------------------------------------------------------------*/
 Bullet::Bullet(TextureManager& textureManager, EntityManager& entityManager, Vector2f pos, Vector2f dir) :
-Entity(entityManager, textureManager.getTexture("Art/Bullet.png"), 20),
+Entity(entityManager, textureManager.getTexture("Art/Bullet.png"), 8),
 _speed(500.),
 _dir(dir)
 {
