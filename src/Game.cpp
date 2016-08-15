@@ -9,6 +9,7 @@
 
 #include "Player.hpp"
 #include "Enemy.hpp"
+#include "BlackHole.hpp"
 
 #include <iostream>
 
@@ -19,6 +20,7 @@ using namespace sf;
 Game::Game() :
 _window(VideoMode(1024, 768), "shooter"),
 _entityManager(static_cast<Vector2f>(_window.getSize())),
+_enemySpawner(_entityManager, _textureManager, _score),
 _timeStep(1./60.),
 _remainingTime(0.),
 _cursor(_textureManager.getTexture("Art/Pointer.png"))
@@ -27,19 +29,13 @@ _cursor(_textureManager.getTexture("Art/Pointer.png"))
     /* init random generator */
     srand(time(0));
 
+    /* create the player */
     Player* player = new Player(_textureManager, _entityManager, _window);
     player->setPosition(150., 150.);
     _entityManager.addEntity(player);
 
-    Seeker* seeker = new Seeker(_textureManager, _entityManager, _score);
-    seeker->setPosition(600., 600.);
-    _entityManager.addEntity(seeker);
-
-    Wanderer* wanderer = new Wanderer(_textureManager, _entityManager, _score);
-    wanderer->setPosition(800., 600.);
-    _entityManager.addEntity(wanderer);
-
-    _window.setMouseCursorVisible(false); /* make the default cursor invisible */
+    /* make the default cursor invisible */
+    _window.setMouseCursorVisible(false);
     _window.setVerticalSyncEnabled(true);
 }
 
@@ -60,6 +56,7 @@ _cursor(_textureManager.getTexture("Art/Pointer.png"))
             }
         }
 
+        /* exec game loop */
         loop();
 
         /* display the game */
@@ -71,7 +68,9 @@ _cursor(_textureManager.getTexture("Art/Pointer.png"))
 
 }
 
+/******************************************************************************/
 /*------------------------Private methods-------------------------------------*/
+/******************************************************************************/
 
 /*----------------------------------------------------------------------------*/
 void Game::loop() {
@@ -92,7 +91,7 @@ void Game::loop() {
     }
 
     /* display the score */
-    cout << "score : " << _score.score() << endl;
+    // cout << "score : " << _score.score() << endl;
 
 }
 

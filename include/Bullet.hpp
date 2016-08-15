@@ -19,13 +19,13 @@ class Bullet : public Entity {
 
     public:
         Bullet(TextureManager& textureManager, EntityManager& entityManager, sf::Vector2f pos, sf::Vector2f dir);
-        void update(double elapsedTime);
 
         void collideWith(const Entity& entity);
 
+        void update(double elapsedTime);
+
     private:
         const double _speed;
-        sf::Vector2f _dir;
 
 
 };

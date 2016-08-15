@@ -44,6 +44,12 @@ class Entity : public sf::Sprite {
         void move(const sf::Vector2f& dir);
 
         /*!
+         * \brief accelerate the entity
+         * \param acc acceleration vector
+         */
+        void accelerate(const sf::Vector2f& acc);
+
+        /*!
          * \brief kimm the entities
          */
         void kill();
@@ -66,6 +72,7 @@ class Entity : public sf::Sprite {
 
     protected:
         EntityManager& _entityManager;
+        sf::Vector2f _velocity;
         double _radius;
         bool _alive;
         Type _type;

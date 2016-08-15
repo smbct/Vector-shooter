@@ -46,6 +46,11 @@ class EntityManager {
         Entity& getPlayer();
 
         /*!
+         * \brief return entities around a position
+         */
+        void getNearbyEntities(sf::Vector2f pos, double radius, std::list<Entity*>& entities);
+
+        /*!
          * \brief return the world bounds
          */
         sf::FloatRect& getWorldBound();

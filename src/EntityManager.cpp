@@ -29,6 +29,19 @@ Entity& EntityManager::getPlayer() {
 }
 
 /*----------------------------------------------------------------------------*/
+void EntityManager::getNearbyEntities(sf::Vector2f pos, double radius, list<Entity*>& entities) {
+
+    Vector2f vec;
+    for(Entity* entity : _entities) {
+        vec = entity->getPosition() - pos;
+        if(vec.x*vec.x + vec.y*vec.y < radius*radius) {
+            entities.push_back(entity);
+        }
+    }
+
+}
+
+/*----------------------------------------------------------------------------*/
 FloatRect& EntityManager::getWorldBound() {
     return _worldRect;
 }

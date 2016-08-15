@@ -17,6 +17,7 @@ using namespace sf;
 Entity::Entity(EntityManager& entityManager, const sf::Texture& texture, double radius) :
 Sprite(texture),
 _entityManager(entityManager),
+_velocity(0., 0.),
 _radius(radius),
 _alive(true),
 _type(None)
@@ -51,6 +52,12 @@ void Entity::move(const Vector2f& dir) {
     setPosition(getPosition() + dir);
 }
 
+
+/*----------------------------------------------------------------------------*/
+void Entity::accelerate(const Vector2f& acc) {
+    _velocity += acc;
+}
+
 void Entity::kill() {
     _alive = false;
 }
@@ -58,6 +65,11 @@ void Entity::kill() {
 /*----------------------------------------------------------------------------*/
 void Entity::update(double elapsedTime) {
 
+    Vector2f delta(_velocity);
+    delta.x *= elapsedTime;
+    delta.y *= elapsedTime;
+
+    move(delta);
 }
 
 /*----------------------------------------------------------------------------*/
