@@ -13,6 +13,7 @@
 #include "TextureManager.hpp"
 #include "EntityManager.hpp"
 #include "ScoreManager.hpp"
+#include "EnemySpawner.hpp"
 
 class Game {
 
@@ -44,12 +45,14 @@ class Game {
         TextureManager _textureManager;
         EntityManager _entityManager;
         ScoreManager _score;
+        EnemySpawner _enemySpawner;
 
         sf::Clock _clock;
         const double _timeStep;
         double _remainingTime;
 
         sf::Sprite _cursor;
+
 
 };
 

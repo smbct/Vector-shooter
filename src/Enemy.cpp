@@ -20,43 +20,50 @@ using namespace std;
 /*----------------------------------------------------------------------------*/
 Enemy::Enemy(EntityManager& entityManager, const Texture& texture, double radius, ScoreManager& score) :
 Entity(entityManager, texture, radius),
-_score(score),
-_velocity(0., 0.)
+_score(score)
 {
     _type = Entity::Enemy;
 }
 
 /*----------------------------------------------------------------------------*/
 void Enemy::collideWith(const Entity& entity) {
-    Entity::collideWith(entity);
     if(entity.type() == Entity::Bullet) {
         _score.increment();
+        kill();
+    } else if(entity.type() == Entity::Seeker || entity.type() == Entity::Wanderer || entity.type() == Entity::Enemy) {
+        /*make a repulsive force */
+        Vector2f vec(getPosition() - entity.getPosition());
+        double lengthSq = vec.x*vec.x + vec.y*vec.y + 1.;
+        lengthSq *= 0.008;
+        vec.x *= lengthSq;
+        vec.y *= lengthSq;
+        _velocity += vec;
+    } else {
+        kill();
     }
 }
 
 /*----------------------------------------------------------------------------*/
 void Enemy::update(double elapsedTime) {
 
-    Vector2f delta = _velocity;
-    delta.x *= elapsedTime;
-    delta.y *= elapsedTime;
-
-    move(delta);
+    Entity::update(elapsedTime);
 
     FloatRect worldRect(_entityManager.getWorldBound());
     FloatRect rect = getLocalBounds();
 
+    /* FIXME : clamp position wanderer */
+
     /* clamp enemy position */
-    if(getPosition().x - rect.width/2. < 0.) {
-        setPosition(rect.width/2., getPosition().y);
-    } else if(getPosition().x +rect.width/2. > worldRect.width) {
-        setPosition(worldRect.width-rect.width/2., getPosition().y);
-    }
-    if(getPosition().y - rect.height/2. < 0.) {
-        setPosition(getPosition().x, rect.height/2.);
-    } else if(getPosition().y + rect.height/2 > worldRect.height) {
-        setPosition(getPosition().x, worldRect.height-rect.height/2.);
-    }
+    // if(getPosition().x - rect.width/2. < 0.) {
+    //     setPosition(rect.width/2., getPosition().y);
+    // } else if(getPosition().x +rect.width/2. > worldRect.width) {
+    //     setPosition(worldRect.width-rect.width/2., getPosition().y);
+    // }
+    // if(getPosition().y - rect.height/2. < 0.) {
+    //     setPosition(getPosition().x, rect.height/2.);
+    // } else if(getPosition().y + rect.height/2 > worldRect.height) {
+    //     setPosition(getPosition().x, worldRect.height-rect.height/2.);
+    // }
 
     /* damping, used to limit the max speed */
     _velocity.x *= 0.8;
@@ -70,7 +77,7 @@ void Enemy::update(double elapsedTime) {
 /*----------------------------------------------------------------------------*/
 Seeker::Seeker(TextureManager& textureManager, EntityManager& entityManager, ScoreManager& score) :
 Enemy(entityManager, textureManager.getTexture("Art/Seeker.png"), 20., score),
-_acceleration(80.)
+_acceleration(70.)
 {
     _type = Entity::Seeker;
 }
@@ -152,7 +159,6 @@ void Wanderer::update(double elapsedTime) {
     worldBound.top += getLocalBounds().height/2.;
     worldBound.height -= getLocalBounds().height/2.;
     if(!worldBound.contains(getPosition())) {
-        cout << "test" << endl;
         Vector2f center(worldBound.width/2., worldBound.height/2.);
         Vector2f vec = center - getPosition();
         _dirAngle = atan2(vec.y, vec.x)/* + static_cast<double>(rand())/RAND_MAX*3.1415 - 3.1415/2.*/;

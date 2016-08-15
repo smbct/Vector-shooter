@@ -23,7 +23,6 @@ class Enemy : public Entity {
 
     protected:
         ScoreManager& _score;
-        sf::Vector2f _velocity;
 
 };
 

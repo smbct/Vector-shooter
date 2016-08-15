@@ -16,11 +16,11 @@ using namespace std;
 
 /*----------------------------------------------------------------------------*/
 Player::Player(TextureManager& textureManager, EntityManager& entityManager, sf::Window& input) :
-Entity(entityManager, textureManager.getTexture("Art/Player.png"), 10),
+Entity(entityManager, textureManager.getTexture("Art/Player.png"), 10.),
 _input(input),
 _textureManager(textureManager),
 _speed(600.),
-_root2(sqrt(2)),
+_root2(sqrt(2.)),
 _fire(false)
 {
     _type = Entity::Player;
@@ -29,55 +29,45 @@ _fire(false)
 /*----------------------------------------------------------------------------*/
 void Player::update(double elapsedTime) {
 
-    sf::Vector2f dir(0., 0.);
+    // double angle = getRotation();
 
-    double angle = getRotation();
+    Vector2f dir(0., 0.);
 
     if(Keyboard::isKeyPressed(Keyboard::Z)) {
         dir.y = -1.;
     } else if(Keyboard::isKeyPressed(Keyboard::S)) {
         dir.y = 1.;
     }
-
     if(Keyboard::isKeyPressed(Keyboard::Q)) {
         dir.x = -1.;
     } else if(Keyboard::isKeyPressed(Keyboard::D)) {
         dir.x = 1.;
     }
 
-    /* set the right angle */
-    if(dir.x > 0.5 && dir.y > 0.5) {
-        angle = 45.;
-    } else if(dir.x > 0.5 && dir.y < -0.5) {
-        angle = -45.;
-    } else if(dir.x < -0.5 && dir.y < -0.5) {
-        angle = 225.;
-    } else if(dir.x < -0.5 && dir.y > 0.5) {
-        angle = 180.-45.;
-    } else if(dir.x > 0.5) {
-        angle = 0.;
-    } else if(dir.x < -0.5) {
-        angle = 180.;
-    } else if(dir.y > 0.5) {
-        angle = 90.;
-    } else if(dir.y < -0.5) {
-        angle = -90.;
+    double length = sqrt(dir.x*dir.x+dir.y*dir.y);
+    if(abs(dir.x) >= 0.5) {
+        dir.x *= _speed/length;
+    }
+    if(abs(dir.y) >= 0.5) {
+        dir.y *= _speed/length;
     }
 
-    /* move at a constant speed */
-    if(abs(dir.x) > 0.5 && abs(dir.y) > 0.5) {
-        dir.x /= _root2;
-        dir.y /= _root2;
+    _velocity += dir;
+
+    /* update orientation */
+    if(dir.x*dir.x + dir.y*dir.y > 1e-4) {
+        double angle = atan2(dir.y,dir.x);
+        angle *= 180. / 3.1415; /* TODO : pi constant */
+        setRotation(angle);
     }
 
-    dir.x *= _speed*elapsedTime;
-    dir.y *= _speed*elapsedTime;
+    /* update position */
+    Entity::update(elapsedTime);
 
-    /* update position and angle */
-    move(dir);
-    setRotation(angle);
+    /* reset the velocity */
+    _velocity = Vector2f(0., 0.);
 
-    /* manager firing */
+    /* manage firing */
     if(Mouse::isButtonPressed(Mouse::Left)) {
         if(!_fire) {
             _fire = true;
@@ -127,7 +117,6 @@ void Player::createBullets() {
     Vector2f posB(center + ortho);
 
     /* bullets creation */
-
     class Bullet* bulletA = new class Bullet(_textureManager, _entityManager, posA, dir);
     class Bullet* bulletB = new class Bullet(_textureManager, _entityManager, posB, dir);
 
