@@ -13,6 +13,7 @@
 
 #include "Entity.hpp"
 #include "Player.hpp"
+#include "Particles.hpp"
 
 /*!
  * \class EntityManager
@@ -72,6 +73,7 @@ class EntityManager {
 
     private:
         sf::FloatRect _worldRect;
+        ParticleManager _particleManager;
         std::list<Entity*> _entities;
         std::queue<Entity*> _added;
         Entity* _player;
