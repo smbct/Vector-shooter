@@ -6,6 +6,7 @@
 */
 
 #include "ParticleManager.hpp"
+#include "Utils.hpp"
 
 #include <iostream>
 
@@ -114,12 +115,12 @@ void ParticleManager::createParticle(const sf::Texture& texture, sf::Vector2f po
 }
 
 /*----------------------------------------------------------------------------*/
-void ParticleManager::update(double elapsedTime) {
+void ParticleManager::update(double elapsedTime, const sf::FloatRect& bound) {
     int removalCount = 0;
 
     for(int ind = 0; ind < _particleList.count(); ind ++) {
         Particle& particle = _particleList[ind];
-        updateParticle(particle, elapsedTime);
+        updateParticle(particle, elapsedTime, bound);
         particle.percentLife -= elapsedTime / particle.duration;
 
         /* particle shift */
@@ -133,13 +134,27 @@ void ParticleManager::update(double elapsedTime) {
 }
 
 /*----------------------------------------------------------------------------*/
-void ParticleManager::updateParticle(Particle& particle, double elapsedTime) {
+void ParticleManager::updateParticle(Particle& particle, double elapsedTime, const sf::FloatRect& bound) {
+
+
+    if(particle.pos.x < 0) {
+        particle.state.velocity.x = abs(particle.state.velocity.x);
+    } else if (particle.pos.x > bound.width) {
+        particle.state.velocity.x = -abs(particle.state.velocity.x);
+    }
+    if (particle.pos.y < 0) {
+        particle.state.velocity.y = abs(particle.state.velocity.y);
+    } else if (particle.pos.y > bound.height) {
+        particle.state.velocity.y = -abs(particle.state.velocity.y);
+    }
 
     Vector2f delta = particle.state.velocity;
     delta.x *= elapsedTime;
     delta.y *= elapsedTime;
 
     particle.pos += delta;
+
+    particle.orientation = Utils::toDegree(Utils::vectorToAngle(particle.state.velocity));
 
     float speed = sqrt(particle.state.velocity.x*particle.state.velocity.x + particle.state.velocity.y*particle.state.velocity.y);
     double alpha = min(particle.percentLife*2., speed*1.);
