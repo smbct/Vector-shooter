@@ -8,6 +8,7 @@
 #include "Player.hpp"
 #include "EntityManager.hpp"
 #include "Bullet.hpp"
+#include "Utils.hpp"
 
 #include <iostream>
 
@@ -88,6 +89,7 @@ void Player::update(double elapsedTime) {
 void Player::collideWith(const Entity& entity) {
     if(entity.type() != Entity::Bullet) {
         _alive = false;
+        createExplosion();
     }
 }
 
@@ -121,4 +123,27 @@ void Player::createBullets() {
 
     _entityManager.addEntity(bulletA);
     _entityManager.addEntity(bulletB);
+}
+
+/*----------------------------------------------------------------------------*/
+void Player::createExplosion() {
+
+    Color yellow(0.8*255, 0.8*255, 0.4*255);
+
+    for (int i = 0; i < 1200; i++)
+    {
+        float speed = 450. * (1. - 1. / Utils::randRange(1., 10.));
+        Color color = Utils::colorLerp(Color::White, yellow, Utils::randRange(0., 1.));
+        ParticleState state;
+
+        state.velocity = Utils::vectorFromLengthAngle(speed, Utils::randRange(-Utils::PI(), Utils::PI()));
+        state.type = ParticleState::None;
+        state.lengthMultiplier = 1.;
+
+        const Texture& texture = _entityManager.getTextureManager().getTexture("Art/Laser.png");
+        Vector2f scale(1.5, 1.5);
+
+        _entityManager.getParticleManager().createParticle(texture, getPosition(), color, 1.3, scale, state);
+    }
+
 }

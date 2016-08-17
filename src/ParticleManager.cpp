@@ -7,6 +7,7 @@
 
 #include "ParticleManager.hpp"
 #include "Utils.hpp"
+#include "EntityManager.hpp"
 
 #include <iostream>
 
@@ -83,8 +84,9 @@ CircularParticleArray::~CircularParticleArray() {
 
 
 /*----------------------------------------------------------------------------*/
-ParticleManager::ParticleManager(int capacity) :
-_particleList(capacity)
+ParticleManager::ParticleManager(int capacity, EntityManager& entityManager) :
+_particleList(capacity),
+_entityManager(entityManager)
 {
 
 }
@@ -115,12 +117,12 @@ void ParticleManager::createParticle(const sf::Texture& texture, sf::Vector2f po
 }
 
 /*----------------------------------------------------------------------------*/
-void ParticleManager::update(double elapsedTime, const sf::FloatRect& bound) {
+void ParticleManager::update(double elapsedTime) {
     int removalCount = 0;
 
     for(int ind = 0; ind < _particleList.count(); ind ++) {
         Particle& particle = _particleList[ind];
-        updateParticle(particle, elapsedTime, bound);
+        updateParticle(particle, elapsedTime);
         particle.percentLife -= elapsedTime / particle.duration;
 
         /* particle shift */
@@ -134,17 +136,17 @@ void ParticleManager::update(double elapsedTime, const sf::FloatRect& bound) {
 }
 
 /*----------------------------------------------------------------------------*/
-void ParticleManager::updateParticle(Particle& particle, double elapsedTime, const sf::FloatRect& bound) {
+void ParticleManager::updateParticle(Particle& particle, double elapsedTime) {
 
 
     if(particle.pos.x < 0) {
         particle.state.velocity.x = abs(particle.state.velocity.x);
-    } else if (particle.pos.x > bound.width) {
+    } else if (particle.pos.x > _entityManager.getWorldBound().width) {
         particle.state.velocity.x = -abs(particle.state.velocity.x);
     }
     if (particle.pos.y < 0) {
         particle.state.velocity.y = abs(particle.state.velocity.y);
-    } else if (particle.pos.y > bound.height) {
+    } else if (particle.pos.y > _entityManager.getWorldBound().height) {
         particle.state.velocity.y = -abs(particle.state.velocity.y);
     }
 
@@ -170,6 +172,20 @@ void ParticleManager::updateParticle(Particle& particle, double elapsedTime, con
 
     particle.state.velocity.x *= 0.97;
     particle.state.velocity.y *= 0.97;
+
+    /* particles affected by gravity */
+    list<Entity*>& blackHoles = _entityManager.getBlackHoles();
+
+    for(Entity* blackHole : blackHoles) {
+
+        Vector2f delta = blackHole->getPosition() - particle.pos;
+        double distance = Utils::length(delta);
+        delta.x /= distance;
+        delta.y /= distance;
+
+        // particle.state.velocity += Vector2f(1000., 1000.)
+
+    }
 
 }
 

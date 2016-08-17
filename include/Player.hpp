@@ -29,6 +29,7 @@ class Player : public Entity {
 
     private:
         void createBullets();
+        void createExplosion();
 
     private:
         sf::Window& _input;

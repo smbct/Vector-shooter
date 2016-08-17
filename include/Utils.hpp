@@ -18,6 +18,7 @@ class Utils {
         static int randRange(int min, int max);
         static sf::Vector2f vectorFromLengthAngle(double length, double angle);
         static double vectorToAngle(sf::Vector2f vector);
+        static double length(sf::Vector2f& vec);
         static double PI();
         static double toRadian(double angle);
         static double toDegree(double angle);
