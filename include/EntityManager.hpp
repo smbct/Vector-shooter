@@ -79,8 +79,6 @@ class EntityManager {
 
         void removeDead();
 
-        void checkBoundary(Entity* entity);
-
     private:
         sf::FloatRect _worldRect;
         TextureManager& _textureManager;

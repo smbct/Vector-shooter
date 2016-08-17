@@ -78,17 +78,12 @@ void Enemy::update(double elapsedTime) {
 /*----------------------------------------------------------------------------*/
 void Enemy::createExplosion() {
 
-    for(int ind = 1; ind <= 120; ind ++) {
+    float hue1 = Utils::randRange(0., 6.);
+    float hue2 = int(hue1 + Utils::randRange(0., 2.)) % 6;
+    Color color1 = Utils::HSVToColor(hue1, 0.5f, 1.);
+    Color color2 = Utils::HSVToColor(hue2, 0.5f, 1.);
 
-    //     float speed = 18f * (1f - 1 / rand.NextFloat(1f, 10f));
-    //    var state = new ParticleState()
-    //    {
-    //        Velocity = rand.NextVector2(speed, speed),
-    //        Type = ParticleType.Enemy,
-    //        LengthMultiplier = 1f
-    //    };
-       //
-    //    GameRoot.ParticleManager.CreateParticle(Art.LineParticle, Position, Color.LightGreen, 190, 1.5f, state);
+    for(int ind = 1; ind <= 120; ind ++) {
 
         float speed = 250. * (1. - 1. / Utils::randRange(1., 10.));
         ParticleState state;
@@ -101,7 +96,9 @@ void Enemy::createExplosion() {
         const Texture& texture = _entityManager.getTextureManager().getTexture("Art/Laser.png");
         Vector2f scale(1.5, 1.5);
 
-        _entityManager.getParticleManager().createParticle(texture, getPosition(), Color::Green, 1.2, scale, state, angle);
+        Color color = Utils::colorLerp(color1, color2, Utils::randRange(0., 1.));
+
+        _entityManager.getParticleManager().createParticle(texture, getPosition(), color, 1.2, scale, state, angle);
 
     }
 

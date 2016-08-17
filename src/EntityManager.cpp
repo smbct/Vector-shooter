@@ -89,7 +89,7 @@ void EntityManager::update(double elapsedTime) {
 
     entityUpdate(elapsedTime);
 
-    _particleManager.update(elapsedTime);
+    _particleManager.update(elapsedTime, _worldRect);
 
     collisions();
     removeDead();
@@ -146,22 +146,9 @@ void EntityManager::removeDead() {
 }
 
 /*----------------------------------------------------------------------------*/
-void EntityManager::checkBoundary(Entity* entity) {
-
-    if(entity->type() != Entity::Player && entity->type() != Entity::Seeker && entity->type() != Entity::Wanderer) {
-        if(!_worldRect.intersects(entity->getGlobalBounds())) {
-            entity->kill();
-        }
-    }
-
-}
-
-/*----------------------------------------------------------------------------*/
 void EntityManager::entityUpdate(double elapsedTime) {
     for(auto entity : _entities) {
         entity->update(elapsedTime);
-        /* make sure the entity is still inside the playground */
-        checkBoundary(entity);
     }
 }
 

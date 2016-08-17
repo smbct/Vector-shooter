@@ -25,6 +25,8 @@ class Bullet : public Entity {
         void update(double elapsedTime);
 
     private:
+        void createExplosion();
+
         const double _speed;
 
 

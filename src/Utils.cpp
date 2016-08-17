@@ -39,6 +39,11 @@ Vector2f Utils::vectorFromLengthAngle(double length, double angle) {
 }
 
 /*----------------------------------------------------------------------------*/
+double Utils::vectorToAngle(Vector2f vector) {
+    return atan2(vector.y, vector.x);
+}
+
+/*----------------------------------------------------------------------------*/
 double Utils::PI() {
     return 3.1415926;
 }
@@ -57,18 +62,29 @@ double Utils::toDegree(double angle) {
 Color Utils::HSVToColor(float h, float s, float v) {
 
     if (h == 0 && s == 0) {
-        return Color(v, v, v);
+        return Color(v*255, v*255, v*255);
     }
 
     float c = s * v;
     float x = c * (1 - abs((int)h % 2 - 1));
     float m = v - c;
 
-    if (h < 1) return Color(c + m, x + m, m);
-    else if (h < 2) return Color(x + m, c + m, m);
-    else if (h < 3) return Color(m, c + m, x + m);
-    else if (h < 4) return Color(m, x + m, c + m);
-    else if (h < 5) return Color(x + m, m, c + m);
-    else return Color(c + m, m, x + m);
+    if (h < 1) return Color((c + m)*255, (x + m)*255, m*255.);
+    else if (h < 2) return Color((x + m)*255, (c + m)*255, m*255);
+    else if (h < 3) return Color(m*255, (c + m)*255, (x + m)*255);
+    else if (h < 4) return Color(m*255, (x + m)*255, (c + m)*255);
+    else if (h < 5) return Color((x + m)*255, m*255, (c + m)*255);
+    else return Color((c + m)*255, m*255, (x + m)*255);
 
+}
+
+/*----------------------------------------------------------------------------*/
+Color Utils::colorLerp(Color col1, Color col2, double percent) {
+    Color res;
+    res.r = col1.r + (col2.r-col1.r)*percent;
+    res.g = col1.g + (col2.g-col1.g)*percent;
+    res.b = col1.b + (col2.b-col1.b)*percent;
+    res.a = /*col1.a + (col2.a-col1.a)*percent*/255;
+
+    return res;
 }
