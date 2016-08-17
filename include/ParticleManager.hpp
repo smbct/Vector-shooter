@@ -11,6 +11,8 @@
 #include "Particle.hpp"
 #include "SFML/Graphics.hpp"
 
+class EntityManager;
+
 class CircularParticleArray {
 
     public:
@@ -39,15 +41,16 @@ class CircularParticleArray {
 class ParticleManager {
 
     public:
-        ParticleManager(int capacity);
+        ParticleManager(int capacity, EntityManager& entityManager);
         void createParticle(const sf::Texture& texture, sf::Vector2f pos, sf::Color tint, double duration, sf::Vector2f scale, ParticleState state, double theta = 0);
-        void update(double elapsedTime, const sf::FloatRect& bound);
-        void updateParticle(Particle& particle, double elapsedTime, const sf::FloatRect& world);
+        void update(double elapsedTime);
+        void updateParticle(Particle& particle, double elapsedTime);
         void draw(sf::RenderWindow& renderer);
 
 
     private:
         CircularParticleArray _particleList;
+        EntityManager& _entityManager;
 
 };
 

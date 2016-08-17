@@ -44,6 +44,11 @@ double Utils::vectorToAngle(Vector2f vector) {
 }
 
 /*----------------------------------------------------------------------------*/
+double Utils::length(Vector2f& vec) {
+    return sqrt(vec.x*vec.x+vec.y*vec.y);
+}
+
+/*----------------------------------------------------------------------------*/
 double Utils::PI() {
     return 3.1415926;
 }

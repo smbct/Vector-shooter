@@ -16,7 +16,7 @@ using namespace sf;
 EntityManager::EntityManager(const sf::Vector2f& worldSize, TextureManager& textureManager) :
 _worldRect(Vector2f(0., 0.), worldSize),
 _textureManager(textureManager),
-_particleManager(1024*20)
+_particleManager(1024*20, *this)
 {
 
 }
@@ -53,6 +53,11 @@ void EntityManager::getNearbyEntities(sf::Vector2f pos, double radius, list<Enti
 }
 
 /*----------------------------------------------------------------------------*/
+list<Entity*>& EntityManager::getBlackHoles() {
+    return _blackHoles;
+}
+
+/*----------------------------------------------------------------------------*/
 FloatRect& EntityManager::getWorldBound() {
     return _worldRect;
 }
@@ -60,11 +65,10 @@ FloatRect& EntityManager::getWorldBound() {
 /*----------------------------------------------------------------------------*/
 void EntityManager::drawEntities(sf::RenderWindow& window) {
 
-    /* draw the particles */
-    /* TODO change sort and blend mode */
+    /* draw particles */
     _particleManager.draw(window);
 
-    /* draw the entities */
+    /* draw entities */
     for(auto entity : _entities) {
         window.draw(*entity);
     }
@@ -89,7 +93,7 @@ void EntityManager::update(double elapsedTime) {
 
     entityUpdate(elapsedTime);
 
-    _particleManager.update(elapsedTime, _worldRect);
+    _particleManager.update(elapsedTime);
 
     collisions();
     removeDead();
@@ -101,6 +105,8 @@ void EntityManager::update(double elapsedTime) {
         _entities.push_back(created);
         if(created->type() == Entity::Player) {
             _player = created;
+        } else if(created->type() == Entity::BlackHole) {
+            _blackHoles.push_back(created);
         }
     }
 
@@ -126,9 +132,28 @@ void EntityManager::collisions() {
 /*----------------------------------------------------------------------------*/
 void EntityManager::removeDead() {
 
-    auto it = _entities.begin(), toRem = _entities.end();
+    /* remove in black hole list */
+    auto it = _blackHoles.begin(), toRem = _blackHoles.end();
     bool rem = false;
+    while(it != _blackHoles.end()) {
+        if(!(*it)->alive()) {
+            rem = true;
+            toRem = it;
+        }
 
+        it ++;
+
+        if(rem) {
+            _entities.erase(toRem); /* remove from the list */
+            rem = false;
+        }
+    }
+
+    it = _entities.begin();
+    toRem = _entities.end();
+    rem = false;
+
+    /* remove in entity list */
     while(it != _entities.end()) {
         if(!(*it)->alive()) {
             rem = true;

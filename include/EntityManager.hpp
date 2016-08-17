@@ -61,6 +61,8 @@ class EntityManager {
          */
         void getNearbyEntities(sf::Vector2f pos, double radius, std::list<Entity*>& entities);
 
+        std::list<Entity*>& getBlackHoles();
+
         /*!
          * \brief return the world bounds
          */
@@ -85,7 +87,7 @@ class EntityManager {
         std::list<Entity*> _entities;
         std::queue<Entity*> _added;
         Entity* _player;
-        std::list<Entity*> _enemies;
+        std::list<Entity*> _blackHoles;
         ParticleManager _particleManager;
 
 };
