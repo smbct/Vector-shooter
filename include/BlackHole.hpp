@@ -17,7 +17,7 @@
 class BlackHole : public Entity {
 
     public:
-        BlackHole(TextureManager& textureManager, EntityManager& entityManager);
+        BlackHole(EntityManager& entityManager);
 
         virtual void update(double elapsedTime);
 

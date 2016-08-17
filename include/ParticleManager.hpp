@@ -19,6 +19,9 @@ class CircularParticleArray {
 
         int& start();
         int& count();
+        int capacity();
+
+        void swap(int ind1, int ind2);
 
         Particle& operator[](int i);
 
@@ -29,7 +32,7 @@ class CircularParticleArray {
         int _count;
         int _capacity;
 
-        Particle* _list;
+        Particle** _list;
 
 };
 
@@ -37,8 +40,11 @@ class ParticleManager {
 
     public:
         ParticleManager(int capacity);
+        void createParticle(const sf::Texture& texture, sf::Vector2f pos, sf::Color tint, double duration, sf::Vector2f scale, ParticleState state, double theta = 0);
         void update(double elapsedTime);
-        void draw(sf::RenderWindow& window);
+        void updateParticle(Particle& particle, double elapsedTime);
+        void draw(sf::RenderWindow& renderer);
+
 
     private:
         CircularParticleArray _particleList;

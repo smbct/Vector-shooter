@@ -13,8 +13,10 @@ using namespace std;
 using namespace sf;
 
 /*----------------------------------------------------------------------------*/
-EntityManager::EntityManager(const sf::Vector2f& worldSize) :
-_worldRect(Vector2f(0., 0.), worldSize)
+EntityManager::EntityManager(const sf::Vector2f& worldSize, TextureManager& textureManager) :
+_worldRect(Vector2f(0., 0.), worldSize),
+_textureManager(textureManager),
+_particleManager(1024*20)
 {
 
 }
@@ -22,6 +24,16 @@ _worldRect(Vector2f(0., 0.), worldSize)
 /******************************************************************************/
 /*-----------------------------getter methods---------------------------------*/
 /******************************************************************************/
+
+/*----------------------------------------------------------------------------*/
+ParticleManager& EntityManager::getParticleManager() {
+    return _particleManager;
+}
+
+/*----------------------------------------------------------------------------*/
+TextureManager& EntityManager::getTextureManager() {
+    return _textureManager;
+}
 
 /*----------------------------------------------------------------------------*/
 Entity& EntityManager::getPlayer() {
@@ -38,7 +50,6 @@ void EntityManager::getNearbyEntities(sf::Vector2f pos, double radius, list<Enti
             entities.push_back(entity);
         }
     }
-
 }
 
 /*----------------------------------------------------------------------------*/
@@ -48,6 +59,12 @@ FloatRect& EntityManager::getWorldBound() {
 
 /*----------------------------------------------------------------------------*/
 void EntityManager::drawEntities(sf::RenderWindow& window) {
+
+    /* draw the particles */
+    /* TODO change sort and blend mode */
+    _particleManager.draw(window);
+
+    /* draw the entities */
     for(auto entity : _entities) {
         window.draw(*entity);
     }
@@ -71,6 +88,8 @@ void EntityManager::addEntity(Entity* entity) {
 void EntityManager::update(double elapsedTime) {
 
     entityUpdate(elapsedTime);
+
+    _particleManager.update(elapsedTime);
 
     collisions();
     removeDead();
@@ -124,7 +143,6 @@ void EntityManager::removeDead() {
             rem = false;
         }
     }
-
 }
 
 /*----------------------------------------------------------------------------*/

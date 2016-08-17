@@ -18,7 +18,7 @@
 class Bullet : public Entity {
 
     public:
-        Bullet(TextureManager& textureManager, EntityManager& entityManager, sf::Vector2f pos, sf::Vector2f dir);
+        Bullet(EntityManager& entityManager, sf::Vector2f pos, sf::Vector2f dir);
 
         void collideWith(const Entity& entity);
 

@@ -10,21 +10,20 @@
 #include "BlackHole.hpp"
 
 /*----------------------------------------------------------------------------*/
-EnemySpawner::EnemySpawner(EntityManager& entityManager, TextureManager& textureManager, ScoreManager& scoreManager) :
+EnemySpawner::EnemySpawner(EntityManager& entityManager, ScoreManager& scoreManager) :
 _entityManager(entityManager),
-_textureManager(textureManager),
 _scoreManager(scoreManager)
 {
 
-    Seeker* seeker = new Seeker(_textureManager, _entityManager, _scoreManager);
+    Seeker* seeker = new Seeker(_entityManager, _scoreManager);
     seeker->setPosition(600., 600.);
     _entityManager.addEntity(seeker);
 
-    Wanderer* wanderer = new Wanderer(_textureManager, _entityManager, _scoreManager);
+    Wanderer* wanderer = new Wanderer(_entityManager, _scoreManager);
     wanderer->setPosition(800., 600.);
     _entityManager.addEntity(wanderer);
 
-    BlackHole* blackHole = new BlackHole(_textureManager, _entityManager);
+    BlackHole* blackHole = new BlackHole(_entityManager);
     blackHole->setPosition(130., 450.);
     _entityManager.addEntity(blackHole);
 

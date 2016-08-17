@@ -7,6 +7,7 @@
 
 #include "Enemy.hpp"
 #include "EntityManager.hpp"
+#include "Utils.hpp"
 
 #include <iostream>
 
@@ -41,6 +42,10 @@ void Enemy::collideWith(const Entity& entity) {
     } else {
         kill();
     }
+
+    if(!alive()) {
+        createExplosion();
+    }
 }
 
 /*----------------------------------------------------------------------------*/
@@ -70,13 +75,45 @@ void Enemy::update(double elapsedTime) {
     _velocity.y *= 0.8;
 }
 
+/*----------------------------------------------------------------------------*/
+void Enemy::createExplosion() {
+
+    for(int ind = 1; ind <= 120; ind ++) {
+
+    //     float speed = 18f * (1f - 1 / rand.NextFloat(1f, 10f));
+    //    var state = new ParticleState()
+    //    {
+    //        Velocity = rand.NextVector2(speed, speed),
+    //        Type = ParticleType.Enemy,
+    //        LengthMultiplier = 1f
+    //    };
+       //
+    //    GameRoot.ParticleManager.CreateParticle(Art.LineParticle, Position, Color.LightGreen, 190, 1.5f, state);
+
+        float speed = 250. * (1. - 1. / Utils::randRange(1., 10.));
+        ParticleState state;
+        double angle = Utils::randRange(-Utils::PI(), Utils::PI());
+        state.velocity = Utils::vectorFromLengthAngle(speed, angle);
+        angle = Utils::toDegree(angle);
+        state.type = ParticleState::Enemy;
+        state.lengthMultiplier = 1.;
+
+        const Texture& texture = _entityManager.getTextureManager().getTexture("Art/Laser.png");
+        Vector2f scale(1.5, 1.5);
+
+        _entityManager.getParticleManager().createParticle(texture, getPosition(), Color::Green, 1.2, scale, state, angle);
+
+    }
+
+}
+
 /******************************************************************************/
 /*------------------------------Seeeker class---------------------------------*/
 /******************************************************************************/
 
 /*----------------------------------------------------------------------------*/
-Seeker::Seeker(TextureManager& textureManager, EntityManager& entityManager, ScoreManager& score) :
-Enemy(entityManager, textureManager.getTexture("Art/Seeker.png"), 20., score),
+Seeker::Seeker(EntityManager& entityManager, ScoreManager& score) :
+Enemy(entityManager, entityManager.getTextureManager().getTexture("Art/Seeker.png"), 20., score),
 _acceleration(70.)
 {
     _type = Entity::Seeker;
@@ -111,8 +148,8 @@ void Seeker::update(double elapsedTime) {
 
 
 /*----------------------------------------------------------------------------*/
-Wanderer::Wanderer(TextureManager& textureManager, EntityManager& entityManager, ScoreManager& score) :
-Enemy(entityManager, textureManager.getTexture("Art/Wanderer.png"), 20., score),
+Wanderer::Wanderer(EntityManager& entityManager, ScoreManager& score) :
+Enemy(entityManager, entityManager.getTextureManager().getTexture("Art/Wanderer.png"), 20., score),
 _acceleration(40.),
 _frame(0)
 {

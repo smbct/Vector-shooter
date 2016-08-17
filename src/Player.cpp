@@ -15,10 +15,9 @@ using namespace sf;
 using namespace std;
 
 /*----------------------------------------------------------------------------*/
-Player::Player(TextureManager& textureManager, EntityManager& entityManager, sf::Window& input) :
-Entity(entityManager, textureManager.getTexture("Art/Player.png"), 10.),
+Player::Player(EntityManager& entityManager, sf::Window& input) :
+Entity(entityManager, entityManager.getTextureManager().getTexture("Art/Player.png"), 10.),
 _input(input),
-_textureManager(textureManager),
 _speed(600.),
 _root2(sqrt(2.)),
 _fire(false)
@@ -117,8 +116,8 @@ void Player::createBullets() {
     Vector2f posB(center + ortho);
 
     /* bullets creation */
-    class Bullet* bulletA = new class Bullet(_textureManager, _entityManager, posA, dir);
-    class Bullet* bulletB = new class Bullet(_textureManager, _entityManager, posB, dir);
+    class Bullet* bulletA = new class Bullet(_entityManager, posA, dir);
+    class Bullet* bulletB = new class Bullet(_entityManager, posB, dir);
 
     _entityManager.addEntity(bulletA);
     _entityManager.addEntity(bulletB);

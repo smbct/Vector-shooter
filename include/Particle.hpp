@@ -26,10 +26,9 @@ class Particle {
 
     public:
         Particle();
-        void update(double elapsedTime);
 
     public:
-        // sf::Texture& texture;
+        sf::Texture const * texture;
         sf::Vector2f pos;
         float orientation;
 
@@ -39,7 +38,6 @@ class Particle {
         float duration;
         float percentLife;
         ParticleState state;
-
 
 };
 

@@ -19,8 +19,8 @@ using namespace sf;
 /*----------------------------------------------------------------------------*/
 Game::Game() :
 _window(VideoMode(1024, 768), "shooter"),
-_entityManager(static_cast<Vector2f>(_window.getSize())),
-_enemySpawner(_entityManager, _textureManager, _score),
+_entityManager(static_cast<Vector2f>(_window.getSize()), _textureManager),
+_enemySpawner(_entityManager, _score),
 _timeStep(1./60.),
 _remainingTime(0.),
 _cursor(_textureManager.getTexture("Art/Pointer.png"))
@@ -30,7 +30,7 @@ _cursor(_textureManager.getTexture("Art/Pointer.png"))
     srand(time(0));
 
     /* create the player */
-    Player* player = new Player(_textureManager, _entityManager, _window);
+    Player* player = new Player(_entityManager, _window);
     player->setPosition(150., 150.);
     _entityManager.addEntity(player);
 

@@ -14,8 +14,8 @@ using namespace std;
 using namespace sf;
 
 /*----------------------------------------------------------------------------*/
-BlackHole::BlackHole(TextureManager& textureManager, EntityManager& entityManager) :
-Entity(entityManager, textureManager.getTexture("Art/Black Hole.png"), 20.),
+BlackHole::BlackHole(EntityManager& entityManager) :
+Entity(entityManager, entityManager.getTextureManager().getTexture("Art/Black Hole.png"), 20.),
 _life(10)
 {
     _type = Entity::BlackHole;
