@@ -19,11 +19,10 @@
 class EnemySpawner {
 
     public:
-        EnemySpawner(EntityManager& entityManager, TextureManager& textureManager, ScoreManager& scoreManager);
+        EnemySpawner(EntityManager& entityManager, ScoreManager& scoreManager);
 
     private:
         EntityManager& _entityManager;
-        TextureManager& _textureManager;
         ScoreManager& _scoreManager;
 
 };

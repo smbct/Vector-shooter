@@ -13,7 +13,7 @@
 
 #include "Entity.hpp"
 #include "Player.hpp"
-#include "Particles.hpp"
+#include "ParticleManager.hpp"
 
 /*!
  * \class EntityManager
@@ -22,7 +22,7 @@
 class EntityManager {
 
     public:
-        EntityManager(const sf::Vector2f& worldSize);
+        EntityManager(const sf::Vector2f& worldSize, TextureManager& textureManager);
 
         /*!
          * \brief draw all entities
@@ -40,6 +40,16 @@ class EntityManager {
          * \brief update all entities
          */
         void update(double elapsedTime);
+
+        /*!
+         * \brief return the texture manager
+         */
+        TextureManager& getTextureManager();
+
+        /*!
+         * \brief return the particle manager
+         */
+        ParticleManager& getParticleManager();
 
         /*!
          * \brief return the player
@@ -73,11 +83,12 @@ class EntityManager {
 
     private:
         sf::FloatRect _worldRect;
-        ParticleManager _particleManager;
+        TextureManager& _textureManager;
         std::list<Entity*> _entities;
         std::queue<Entity*> _added;
         Entity* _player;
         std::list<Entity*> _enemies;
+        ParticleManager _particleManager;
 
 };
 

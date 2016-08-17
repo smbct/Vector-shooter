@@ -21,7 +21,7 @@ class EntityManager;
 class Player : public Entity {
 
     public:
-        Player(TextureManager& textureManager, EntityManager& entityManager, sf::Window& input);
+        Player(EntityManager& entityManager, sf::Window& input);
 
         void update(double elapsedTime);
 
@@ -32,7 +32,6 @@ class Player : public Entity {
 
     private:
         sf::Window& _input;
-        TextureManager& _textureManager;
         const double _speed;
         const double _root2;
         sf::Clock _clock;

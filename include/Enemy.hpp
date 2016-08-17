@@ -22,6 +22,9 @@ class Enemy : public Entity {
         virtual void update(double elapsedTime);
 
     protected:
+
+        void createExplosion();
+
         ScoreManager& _score;
 
 };
@@ -29,7 +32,7 @@ class Enemy : public Entity {
 class Seeker : public Enemy {
 
     public:
-        Seeker(TextureManager& textureManager, EntityManager& entityManager, ScoreManager& score);
+        Seeker(EntityManager& entityManager, ScoreManager& score);
 
         virtual void update(double elapsedTime);
 
@@ -41,7 +44,7 @@ class Seeker : public Enemy {
 class Wanderer : public Enemy {
 
     public:
-        Wanderer(TextureManager& textureManager, EntityManager& entityManager, ScoreManager& score);
+        Wanderer(EntityManager& entityManager, ScoreManager& score);
 
         virtual void update(double elapsedTime);
 

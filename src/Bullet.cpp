@@ -6,6 +6,7 @@
 */
 
 #include "Bullet.hpp"
+#include "EntityManager.hpp"
 
 #include <iostream>
 
@@ -14,8 +15,8 @@ using namespace std;
 using namespace sf;
 
 /*----------------------------------------------------------------------------*/
-Bullet::Bullet(TextureManager& textureManager, EntityManager& entityManager, Vector2f pos, Vector2f dir) :
-Entity(entityManager, textureManager.getTexture("Art/Bullet.png"), 8),
+Bullet::Bullet(EntityManager& entityManager, Vector2f pos, Vector2f dir) :
+Entity(entityManager, entityManager.getTextureManager().getTexture("Art/Bullet.png"), 8),
 _speed(500.)
 {
     _type = Entity::Bullet;

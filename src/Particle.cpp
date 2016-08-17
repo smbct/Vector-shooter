@@ -7,12 +7,11 @@
 
 #include "Particle.hpp"
 
-/*----------------------------------------------------------------------------*/
-Particle::Particle() {
-
-}
+using namespace sf;
 
 /*----------------------------------------------------------------------------*/
-void Particle::update(double elapsedTime) {
+Particle::Particle() :
+texture(nullptr)
+{
 
 }
