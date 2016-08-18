@@ -169,22 +169,34 @@ void ParticleManager::updateParticle(Particle& particle, double elapsedTime) {
     if(abs(particle.state.velocity.x) + abs(particle.state.velocity.y) < 1e-9) {
         particle.state.velocity = Vector2f(0., 0.);
     }
-
     particle.state.velocity.x *= 0.97;
     particle.state.velocity.y *= 0.97;
 
-    /* particles affected by gravity */
-    list<Entity*>& blackHoles = _entityManager.getBlackHoles();
+    if(particle.state.type != ParticleState::IgnoreGravity) {
 
-    for(Entity* blackHole : blackHoles) {
+        /* particles affected by gravity */
+        list<Entity*>& blackHoles = _entityManager.getBlackHoles();
 
-        Vector2f delta = blackHole->getPosition() - particle.pos;
-        double distance = Utils::length(delta);
-        delta.x /= distance;
-        delta.y /= distance;
+        for(Entity* blackHole : blackHoles) {
 
-        // particle.state.velocity += Vector2f(1000., 1000.)
+            Vector2f delta = blackHole->getPosition() - particle.pos;
+            double distance = Utils::length(delta);
 
+            Vector2f n(delta.x / distance, delta.y / distance);
+            delta = n;
+
+            double coeff = 60000. / (distance*distance+5000.);
+            delta.x *= coeff;
+            delta.y *= coeff;
+            particle.state.velocity += delta;
+
+            if(distance < 400.) {
+                Vector2f vec(n.y, -n.x);
+                particle.state.velocity.x += vec.x * (800. / (distance+100.));
+                particle.state.velocity.y += vec.y * (800. / (distance+100.));
+            }
+
+        }
     }
 
 }

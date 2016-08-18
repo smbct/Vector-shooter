@@ -24,7 +24,15 @@ class BlackHole : public Entity {
         virtual void collideWith(const Entity& entity);
 
     private:
+        void createExplosion();
+
+        void createSpray();
+
         unsigned int _life;
+
+        sf::Clock _clock;
+
+        double _sprayAngle;
 
 };
 

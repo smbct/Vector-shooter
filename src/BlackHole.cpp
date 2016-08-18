@@ -7,6 +7,7 @@
 
 #include "BlackHole.hpp"
 #include "EntityManager.hpp"
+#include "Utils.hpp"
 
 #include <iostream>
 
@@ -16,7 +17,8 @@ using namespace sf;
 /*----------------------------------------------------------------------------*/
 BlackHole::BlackHole(EntityManager& entityManager) :
 Entity(entityManager, entityManager.getTextureManager().getTexture("Art/Black Hole.png"), 20.),
-_life(10)
+_life(10),
+_sprayAngle(0)
 {
     _type = Entity::BlackHole;
 }
@@ -47,6 +49,12 @@ void BlackHole::update(double elapsedTime) {
         }
     }
 
+    /* create a spray every quarter second */
+    if(_clock.getElapsedTime().asSeconds() > 0.25) {
+        createSpray();
+        _clock.restart();
+    }
+
 }
 
 /*----------------------------------------------------------------------------*/
@@ -56,5 +64,51 @@ void BlackHole::collideWith(const Entity& entity) {
         _life --;
     } else {
         kill();
+        createExplosion();
     }
+
+}
+
+/*----------------------------------------------------------------------------*/
+void BlackHole::createExplosion() {
+
+    float hue = static_cast<int>(3*_clock.getElapsedTime().asSeconds()) % 6;
+    Color color = Utils::HSVToColor(hue, 0.25, 1.);
+    const int numParticle = 150;
+    float startOffset = Utils::randRange(0., Utils::PI()*2. / static_cast<double>(numParticle));
+
+    for(int ind = 1; ind <= numParticle; ind ++) {
+
+        Vector2f sprayVel = Utils::vectorFromLengthAngle(Utils::randRange(200., 600.), Utils::PI()*2. * static_cast<double>(ind) / numParticle + startOffset);
+        Vector2f pos = getPosition() + Vector2f(0.1*sprayVel.x, 0.1*sprayVel.y);
+
+        ParticleState state;
+        state.velocity = sprayVel;
+        state.lengthMultiplier = 1.;
+        state.type = ParticleState::IgnoreGravity;
+        const Texture& texture = _entityManager.getTextureManager().getTexture("Art/Laser.png");
+
+        _entityManager.getParticleManager().createParticle(texture, pos, color, 4, Vector2f(1.5, 1.5), state);
+    }
+
+}
+
+/*----------------------------------------------------------------------------*/
+void BlackHole::createSpray() {
+
+    Vector2f sprayVel = Utils::vectorFromLengthAngle(Utils::randRange(300., 350.), _sprayAngle);
+    Color color = Utils::HSVToColor(5., 0.5, 0.8);
+    Vector2f pos = getPosition();
+    pos.x += 0.1 * sprayVel.y + Utils::randRange(4., 8.);
+    pos.y += 0.1 * (-sprayVel.x) + Utils::randRange(4., 8.);
+    ParticleState state;
+    state.velocity = sprayVel;
+    state.lengthMultiplier = 1.;
+    state.type = ParticleState::Enemy;
+    const Texture& texture = _entityManager.getTextureManager().getTexture("Art/Laser.png");
+
+    _entityManager.getParticleManager().createParticle(texture, pos, color, 5., Vector2f(1.5, 1.5), state);
+
+    _sprayAngle -= Utils::PI() / 50.;
+
 }
