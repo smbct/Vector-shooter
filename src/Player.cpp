@@ -64,6 +64,11 @@ void Player::update(double elapsedTime) {
     /* update position */
     Entity::update(elapsedTime);
 
+    /* create particles if it's moving */
+    if(Utils::lengthSq(_velocity) > 0.1) {
+        createExhaustFire();
+    }
+
     /* reset the velocity */
     _velocity = Vector2f(0., 0.);
 
@@ -145,5 +150,52 @@ void Player::createExplosion() {
 
         _entityManager.getParticleManager().createParticle(texture, getPosition(), color, 1.3, scale, state);
     }
+
+}
+
+/*----------------------------------------------------------------------------*/
+void Player::createExhaustFire() {
+
+        ParticleState state;
+        state.type = ParticleState::Enemy;
+        state.lengthMultiplier = 1.;
+
+        double orientation = Utils::vectorToAngle(_velocity);
+        double t = _particleClock.getElapsedTime().asSeconds();
+
+        Vector2f baseVel = _velocity;
+        double length = Utils::length(_velocity);
+        baseVel.x *= -100. / length;
+        baseVel.y *= -100. / length;
+
+        Vector2f perpVel(baseVel.y, -baseVel.x);
+        double coef = 0.6 * sin(t*10.);
+        perpVel.x *= coef;
+        perpVel.y *= coef;
+
+        const double alpha = 0.7;
+        Color sideColor(200.*alpha, 38.*alpha, 9.*alpha), midColor(255.*alpha, 187.*alpha, 30.*alpha);
+
+        Vector2f pos = getPosition() - Utils::vectorFromLengthAngle(25., orientation);
+
+        const Texture& line = _entityManager.getTextureManager().getTexture("Art/Laser.png");
+        const Texture& glow = _entityManager.getTextureManager().getTexture("Art/Glow.png");
+
+        /* middle particle system */
+        Color col(255.*alpha, 255.*alpha, 255.*alpha);
+        Vector2f velMid = baseVel + Vector2f(Utils::randRange(0., 10.), Utils::randRange(0., 10.));
+        state.velocity = velMid;
+        _entityManager.getParticleManager().createParticle(line, pos, col, 0.8, Vector2f(0.5, 1.), state);
+        _entityManager.getParticleManager().createParticle(glow, pos, midColor, 0.8, Vector2f(0.5, 1.), state);
+
+        /* side particle system */
+        Vector2f vel1 = baseVel + perpVel + Vector2f(Utils::randRange(0., 3.), Utils::randRange(0., 3.));
+        Vector2f vel2 = baseVel - perpVel + Vector2f(Utils::randRange(0., 3.), Utils::randRange(0., 3.));
+        state.velocity = vel1;
+        _entityManager.getParticleManager().createParticle(line, pos, col, 0.8, Vector2f(0.5, 1.), state);
+        _entityManager.getParticleManager().createParticle(glow, pos, sideColor, 0.8, Vector2f(0.5, 1.), state);
+        state.velocity = vel2;
+        _entityManager.getParticleManager().createParticle(line, pos, col, 0.8, Vector2f(0.5, 1.), state);
+        _entityManager.getParticleManager().createParticle(glow, pos, sideColor, 0.8, Vector2f(0.5, 1.), state);
 
 }

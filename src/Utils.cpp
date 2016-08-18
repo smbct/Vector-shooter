@@ -49,6 +49,11 @@ double Utils::length(Vector2f& vec) {
 }
 
 /*----------------------------------------------------------------------------*/
+double Utils::lengthSq(sf::Vector2f& vec) {
+    return vec.x*vec.x + vec.y*vec.y;
+}
+
+/*----------------------------------------------------------------------------*/
 double Utils::PI() {
     return 3.1415926;
 }
