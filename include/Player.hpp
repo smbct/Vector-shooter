@@ -30,6 +30,7 @@ class Player : public Entity {
     private:
         void createBullets();
         void createExplosion();
+        void createExhaustFire();
 
     private:
         sf::Window& _input;
@@ -37,6 +38,7 @@ class Player : public Entity {
         const double _root2;
         sf::Clock _clock;
         bool _fire;
+        sf::Clock _particleClock;
 
 };
 
