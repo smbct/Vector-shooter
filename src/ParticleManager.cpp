@@ -202,7 +202,7 @@ void ParticleManager::updateParticle(Particle& particle, double elapsedTime) {
 }
 
 /*----------------------------------------------------------------------------*/
-void ParticleManager::draw(sf::RenderWindow& renderer) {
+void ParticleManager::draw(RenderTarget& renderer) {
 
     for(int ind = 0; ind < _particleList.count(); ind++) {
 
@@ -219,8 +219,10 @@ void ParticleManager::draw(sf::RenderWindow& renderer) {
         sprite.setColor(particle.color);
         sprite.setScale(particle.scale);
 
+        BlendMode mode(BlendMode::One, BlendMode::One);
+
         /* draw the sprite */
-        renderer.draw(sprite);
+        renderer.draw(sprite, RenderStates(mode));
 
     }
 

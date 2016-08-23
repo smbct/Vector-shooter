@@ -63,14 +63,14 @@ FloatRect& EntityManager::getWorldBound() {
 }
 
 /*----------------------------------------------------------------------------*/
-void EntityManager::drawEntities(sf::RenderWindow& window) {
+void EntityManager::drawEntities(RenderTarget& renderer) {
 
     /* draw particles */
-    _particleManager.draw(window);
+    _particleManager.draw(renderer);
 
     /* draw entities */
     for(auto entity : _entities) {
-        window.draw(*entity);
+        renderer.draw(*entity);
     }
 }
 

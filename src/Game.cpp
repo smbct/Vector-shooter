@@ -37,6 +37,12 @@ _cursor(_textureManager.getTexture("Art/Pointer.png"))
     /* make the default cursor invisible */
     _window.setMouseCursorVisible(false);
     _window.setVerticalSyncEnabled(true);
+
+    /* off screen rendering */
+    _blurHShader.loadFromFile("Shaders/blurH.frag", Shader::Fragment);
+    _blurVShader.loadFromFile("Shaders/blurV.frag", Shader::Fragment);
+    _texture1.create(_window.getSize().x, _window.getSize().y);
+    _texture2.create(_window.getSize().x, _window.getSize().y);
 }
 
 /*----------------------------------------------------------------------------*/
@@ -99,13 +105,42 @@ void Game::loop() {
 /*----------------------------------------------------------------------------*/
 void Game::draw() {
 
-    _window.clear();
+    _texture1.clear();
 
     /* draw all entities */
-    _entityManager.drawEntities(_window);
+    _entityManager.drawEntities(_texture1);
 
     /* update and draw the cursor */
     sf::Vector2i mouse = Mouse::getPosition(_window);
     _cursor.setPosition(static_cast<float>(mouse.x), static_cast<float>(mouse.y));
-    _window.draw(_cursor);
+
+    _texture1.draw(_cursor);
+    _texture1.display();
+
+    /* copy the initial rendering into a texture */
+    _screenTexture = Texture(_texture1.getTexture());
+
+    /* horizontal blur */
+    Sprite sprite(_texture1.getTexture());
+    _blurHShader.setParameter("texture", _texture1.getTexture());
+    _blurHShader.setParameter("width", static_cast<float>(_window.getSize().x));
+    _texture2.clear();
+    _texture2.draw(sprite, &_blurHShader);
+    _texture2.display();
+
+    /* vertical blur */
+    _texture1.clear();
+    sprite.setTexture(_texture2.getTexture());
+    _blurVShader.setParameter("texture", _texture2.getTexture());
+    _blurVShader.setParameter("height", static_cast<float>(_window.getSize().y));
+    _texture1.draw(sprite, &_blurVShader);
+    _texture1.display();
+
+    /* final rendering */
+    sprite.setTexture(_screenTexture);
+    Sprite sprite2(_texture1.getTexture());
+    _window.clear();
+    BlendMode mode(BlendMode::One, BlendMode::One);
+    _window.draw(sprite, RenderStates(mode));
+    _window.draw(sprite2, RenderStates(mode));
 }

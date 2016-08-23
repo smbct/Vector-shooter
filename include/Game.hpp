@@ -53,6 +53,11 @@ class Game {
 
         sf::Sprite _cursor;
 
+        sf::Shader _blurHShader;
+        sf::Shader _blurVShader;
+        sf::RenderTexture _texture1;
+        sf::RenderTexture _texture2;
+        sf::Texture _screenTexture;
 
 };
 

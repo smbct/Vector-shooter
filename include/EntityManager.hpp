@@ -28,7 +28,7 @@ class EntityManager {
          * \brief draw all entities
          * \param renderer the window to draw in
          */
-        void drawEntities(sf::RenderWindow& renderer);
+        void drawEntities(sf::RenderTarget& renderer);
 
         /*!
          * \brief add a new entity
