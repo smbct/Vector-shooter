@@ -45,7 +45,7 @@ class ParticleManager {
         void createParticle(const sf::Texture& texture, sf::Vector2f pos, sf::Color tint, double duration, sf::Vector2f scale, ParticleState state, double theta = 0);
         void update(double elapsedTime);
         void updateParticle(Particle& particle, double elapsedTime);
-        void draw(sf::RenderWindow& renderer);
+        void draw(sf::RenderTarget& renderer);
 
 
     private:
