@@ -19,7 +19,9 @@ class Utils {
         static sf::Vector2f vectorFromLengthAngle(double length, double angle);
         static double vectorToAngle(sf::Vector2f vector);
         static double length(sf::Vector2f& vec);
+        static double length(sf::Vector3f& vec);
         static double lengthSq(sf::Vector2f& vec);
+        static double lengthSq(sf::Vector3f& vec);
         static double PI();
         static double toRadian(double angle);
         static double toDegree(double angle);
