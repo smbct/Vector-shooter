@@ -45,12 +45,22 @@ double Utils::vectorToAngle(Vector2f vector) {
 
 /*----------------------------------------------------------------------------*/
 double Utils::length(Vector2f& vec) {
-    return sqrt(vec.x*vec.x+vec.y*vec.y);
+    return sqrt(lengthSq(vec));
 }
 
 /*----------------------------------------------------------------------------*/
-double Utils::lengthSq(sf::Vector2f& vec) {
+double Utils::length(sf::Vector3f& vec) {
+    return sqrt(lengthSq(vec));
+}
+
+/*----------------------------------------------------------------------------*/
+double Utils::lengthSq(Vector2f& vec) {
     return vec.x*vec.x + vec.y*vec.y;
+}
+
+/*----------------------------------------------------------------------------*/
+double Utils::lengthSq(Vector3f& vec) {
+    return vec.x*vec.x + vec.y*vec.y + vec.z*vec.z;
 }
 
 /*----------------------------------------------------------------------------*/
