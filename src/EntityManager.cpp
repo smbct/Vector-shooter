@@ -16,7 +16,8 @@ using namespace sf;
 EntityManager::EntityManager(const sf::Vector2f& worldSize, TextureManager& textureManager) :
 _worldRect(Vector2f(0., 0.), worldSize),
 _textureManager(textureManager),
-_particleManager(1024*20, *this)
+_particleManager(1024*20, *this),
+_grid(worldSize, sf::Vector2f(25, 25))
 {
 
 }
@@ -65,6 +66,9 @@ FloatRect& EntityManager::getWorldBound() {
 /*----------------------------------------------------------------------------*/
 void EntityManager::drawEntities(RenderTarget& renderer) {
 
+    /* draw the warping grid */
+    _grid.draw(renderer, Vector2f(_worldRect.width, _worldRect.height));
+
     /* draw particles */
     _particleManager.draw(renderer);
 
@@ -94,6 +98,8 @@ void EntityManager::update(double elapsedTime) {
     entityUpdate(elapsedTime);
 
     _particleManager.update(elapsedTime);
+
+    _grid.update(elapsedTime);
 
     collisions();
     removeDead();
