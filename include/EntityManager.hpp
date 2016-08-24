@@ -14,6 +14,7 @@
 #include "Entity.hpp"
 #include "Player.hpp"
 #include "ParticleManager.hpp"
+#include "WarpingGrid.hpp"
 
 /*!
  * \class EntityManager
@@ -89,6 +90,7 @@ class EntityManager {
         Entity* _player;
         std::list<Entity*> _blackHoles;
         ParticleManager _particleManager;
+        Grid _grid;
 
 };
 

@@ -39,6 +39,13 @@ class PointMass {
         void increaseDamping(double factor);
 
         /*!
+         * \brief project 3d coordinates into 2d coordinates
+         * \param size size of the screen
+         * \return 2d coordinates of the point
+         */
+        sf::Vector2f project(sf::Vector2f size);
+
+        /*!
          * \brief update the point mass
          * \param elapsedTime time elapsed since last simulated frame
          */
@@ -64,8 +71,8 @@ class Spring {
 
     /* public attributes */
     public:
-        PointMass end1;
-        PointMass end2;
+        PointMass& end1;
+        PointMass& end2;
         double targetLength;
         double stiffness;
         double damping;
@@ -81,13 +88,13 @@ class Spring {
          * \param stiffness stiffness of the spring
          * \param damping damping
          */
-        Spring(PointMass pend1, PointMass pend2, double pstiffness, double pdamping);
+        Spring(PointMass& pend1, PointMass& pend2, double pstiffness, double pdamping);
 
         /*!
          * \brief update the spring
          * \param elapsedTime elapsed time since the last frame
          */
-        void update(double elapsedTime);
+        void update();
 };
 
 
