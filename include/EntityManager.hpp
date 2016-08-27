@@ -64,6 +64,8 @@ class EntityManager {
 
         std::list<Entity*>& getBlackHoles();
 
+        Grid& getGrid();
+
         /*!
          * \brief return the world bounds
          */

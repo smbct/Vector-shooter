@@ -49,6 +49,10 @@ void Bullet::update(double elapsedTime) {
         kill();
     }
 
+    /* effect on the grid */
+
+    // _entityManager.getGrid().applyImplosiveForce(5000, Vector3f(getPosition().x, getPosition().y, 0.), 50);
+
 }
 
 /*----------------------------------------------------------------------------*/
