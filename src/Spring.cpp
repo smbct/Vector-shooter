@@ -8,7 +8,10 @@
 #include "Spring.hpp"
 #include "Utils.hpp"
 
+#include <iostream>
+
 using namespace sf;
+using namespace std;
 
 
 /******************************************************************************/
@@ -18,7 +21,9 @@ using namespace sf;
 /*----------------------------------------------------------------------------*/
 PointMass::PointMass(Vector3f ppos, double pinvMass) :
 pos(ppos),
+velocity(0., 0., 0.),
 invMass(pinvMass),
+acceleration(0., 0., 0.),
 damping(0.98)
 {
 
@@ -38,25 +43,18 @@ void PointMass::increaseDamping(double factor) {
 
 /*----------------------------------------------------------------------------*/
 void PointMass::update(double elapsedTime) {
-    Vector3f deltaAcc = acceleration;
-    deltaAcc.x *= elapsedTime*elapsedTime;
-    deltaAcc.y *= elapsedTime*elapsedTime;
-    deltaAcc.z *= elapsedTime*elapsedTime;
 
-    velocity += deltaAcc;
+    velocity += acceleration;
 
-    Vector3f delta = velocity;
-    delta.x *= elapsedTime;
-    delta.y *= elapsedTime;
-    delta.z *= elapsedTime;
-    pos += delta;
+    pos += velocity;
 
     if(Utils::lengthSq(velocity) < 1e-6) {
         velocity = Vector3f(0., 0., 0.);
     }
 
-    velocity.x *= damping*elapsedTime;
-    velocity.y *= damping*elapsedTime;
+    velocity.x *= damping;
+    velocity.y *= damping;
+    velocity.z *= damping;
 
     damping = 0.98;
 }
@@ -85,7 +83,7 @@ stiffness(pstiffness),
 damping(pdamping)
 {
     Vector3f delta = end1.pos-end2.pos;
-    targetLength = Utils::length(delta);
+    targetLength = Utils::length(delta)*0.95;
 
 }
 
@@ -98,9 +96,9 @@ void Spring::update() {
     double length = Utils::length(delta);
 
     if(length > targetLength) {
-        delta.x /= length*(length-targetLength);
-        delta.y /= length*(length-targetLength);
-        delta.z /= length*(length-targetLength);
+        delta.x = (delta.x/length)*(length-targetLength);
+        delta.y = (delta.y/length)*(length-targetLength);
+        delta.z = (delta.z/length)*(length-targetLength);
 
         Vector3f deltaVel = end2.velocity - end1.velocity;
         Vector3f force(stiffness*delta.x-deltaVel.x*damping, stiffness*delta.y-deltaVel.y*damping, stiffness*delta.z-deltaVel.z*damping);

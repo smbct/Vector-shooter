@@ -64,6 +64,11 @@ FloatRect& EntityManager::getWorldBound() {
 }
 
 /*----------------------------------------------------------------------------*/
+Grid& EntityManager::getGrid() {
+    return _grid;
+}
+
+/*----------------------------------------------------------------------------*/
 void EntityManager::drawEntities(RenderTarget& renderer) {
 
     /* draw the warping grid */

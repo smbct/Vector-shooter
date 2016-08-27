@@ -38,7 +38,7 @@ _cursor(_textureManager.getTexture("Art/Pointer.png"))
     _window.setMouseCursorVisible(false);
     _window.setVerticalSyncEnabled(true);
 
-    /* off screen rendering */
+    /* post effect */
     _blurHShader.loadFromFile("Shaders/blurH.frag", Shader::Fragment);
     _blurVShader.loadFromFile("Shaders/blurV.frag", Shader::Fragment);
     _texture1.create(_window.getSize().x, _window.getSize().y);

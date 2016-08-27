@@ -48,10 +48,10 @@ Grid::Grid(sf::Vector2f size, sf::Vector2f space)
             const float stiffness = 0.28;
             const float damping = 0.06;
             if(x > 0) {
-                _springs.push_back(new Spring(*_fixedPoints[y*_nbCols+x-1], *_points[y*_nbCols+x], stiffness, damping));
+                _springs.push_back(new Spring(*_points[y*_nbCols+x-1], *_points[y*_nbCols+x], stiffness, damping));
             }
             if(y > 0) {
-                _springs.push_back(new Spring(*_fixedPoints[(y-1)*_nbCols+x], *_points[y*_nbCols+x], stiffness, damping));
+                _springs.push_back(new Spring(*_points[(y-1)*_nbCols+x], *_points[y*_nbCols+x], stiffness, damping));
             }
         }
     }
@@ -72,7 +72,7 @@ void Grid::update(double elapsedTime) {
 }
 
 /*----------------------------------------------------------------------------*/
-void Grid::applyDirectedForce(sf::Vector3f force, sf::Vector3f pos, double radius) {
+void Grid::applyDirectedForce(Vector3f force, Vector3f pos, double radius) {
     for(int i = 0; i < _nbCols*_nbRows; i++) {
         Vector3f delta = pos-_points[i]->pos;
         if(Utils::lengthSq(delta) < radius*radius) {
@@ -82,6 +82,28 @@ void Grid::applyDirectedForce(sf::Vector3f force, sf::Vector3f pos, double radiu
         }
 
     }
+}
+
+/*----------------------------------------------------------------------------*/
+void Grid::applyImplosiveForce(double force, Vector3f position, double radius) {
+    for(int i = 0; i < _nbCols*_nbRows; i++) {
+        Vector3f delta = position-_points[i]->pos;
+        double length = Utils::lengthSq(delta);
+        if(length < radius*radius) {
+            Vector3f vec(force*10 * (position.x - _points[i]->pos.x) / (100+length),
+                        force*10 * (position.y - _points[i]->pos.y) / (100+length),
+                        force*10 * (position.z - _points[i]->pos.z) / (100+length));
+            _points[i]->applyForce(vec);
+            _points[i]->increaseDamping(0.6);
+        }
+
+
+    }
+}
+
+/*----------------------------------------------------------------------------*/
+void Grid::applyExplosiveForce(double force, Vector3f position, double radius) {
+
 }
 
 /*----------------------------------------------------------------------------*/
