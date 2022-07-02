@@ -55,6 +55,11 @@ void BlackHole::update(double elapsedTime) {
         _clock.restart();
     }
 
+    // GameRoot.Grid.ApplyImplosiveForce((float)Math.Sin(sprayAngle / 2) * 10 + 20, Position, 200);
+
+    _entityManager.getGrid().applyImplosiveForce(sin(_sprayAngle / 2)* 10 + 20, Vector3f(getPosition().x, getPosition().y, 0.), 200);
+
+
 }
 
 /*----------------------------------------------------------------------------*/

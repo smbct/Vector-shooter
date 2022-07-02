@@ -27,6 +27,21 @@ class Utils {
         static double toDegree(double angle);
         static sf::Color HSVToColor(float h, float s, float v);
         static sf::Color colorLerp(sf::Color col1, sf::Color col2, double percent);
+        static sf::Vector2f catmull_rom(sf::Vector2f p1, sf::Vector2f p2, sf::Vector2f p3, sf::Vector2f p4, float t);
+
+
 };
+
+sf::Vector2f operator*(sf::Vector2f left, sf::Vector2f right);
+sf::Vector2f operator*(sf::Vector2f left, double right);
+sf::Vector2f operator*(double left, sf::Vector2f right);
+sf::Vector2f operator*(sf::Vector2f left, double right);
+sf::Vector2f operator/(sf::Vector2f left, double right);
+
+sf::Vector3f operator*(sf::Vector3f left, sf::Vector3f right);
+sf::Vector3f operator*(sf::Vector3f left, double right);
+sf::Vector3f operator*(double left, sf::Vector3f right);
+sf::Vector3f operator/(sf::Vector3f left, double right);
+
 
 #endif /* UTILS_HPP */

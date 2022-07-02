@@ -13,12 +13,14 @@
 
 #include <iostream>
 
+#include "Utils.hpp"
+
 using namespace std;
 using namespace sf;
 
 /*----------------------------------------------------------------------------*/
 Game::Game() :
-_window(VideoMode(1024, 768), "shooter"),
+_window(VideoMode(1024, 768), "shooter", sf::Style::Titlebar | sf::Style::Close),
 _entityManager(static_cast<Vector2f>(_window.getSize()), _textureManager),
 _enemySpawner(_entityManager, _score),
 _timeStep(1./60.),
@@ -122,8 +124,8 @@ void Game::draw() {
 
     /* horizontal blur */
     Sprite sprite(_texture1.getTexture());
-    _blurHShader.setParameter("texture", _texture1.getTexture());
-    _blurHShader.setParameter("width", static_cast<float>(_window.getSize().x));
+    _blurHShader.setUniform("texture", _texture1.getTexture());
+    _blurHShader.setUniform("width", static_cast<float>(_window.getSize().x));
     _texture2.clear();
     _texture2.draw(sprite, &_blurHShader);
     _texture2.display();
@@ -131,8 +133,8 @@ void Game::draw() {
     /* vertical blur */
     _texture1.clear();
     sprite.setTexture(_texture2.getTexture());
-    _blurVShader.setParameter("texture", _texture2.getTexture());
-    _blurVShader.setParameter("height", static_cast<float>(_window.getSize().y));
+    _blurVShader.setUniform("texture", _texture2.getTexture());
+    _blurVShader.setUniform("height", static_cast<float>(_window.getSize().y));
     _texture1.draw(sprite, &_blurVShader);
     _texture1.display();
 
@@ -143,4 +145,5 @@ void Game::draw() {
     BlendMode mode(BlendMode::One, BlendMode::One);
     _window.draw(sprite, RenderStates(mode));
     _window.draw(sprite2, RenderStates(mode));
+
 }

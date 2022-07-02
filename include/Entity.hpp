@@ -9,6 +9,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <cmath>
+
 /* forward declaration */
 class EntityManager;
 

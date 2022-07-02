@@ -17,7 +17,12 @@ EntityManager::EntityManager(const sf::Vector2f& worldSize, TextureManager& text
 _worldRect(Vector2f(0., 0.), worldSize),
 _textureManager(textureManager),
 _particleManager(1024*20, *this),
-_grid(worldSize, sf::Vector2f(25, 25))
+
+// _grid(worldSize, sf::Vector2f(worldSize.x/(10*3), worldSize.y/int(worldSize.x/(worldSize.x/(10*3)))))
+
+_grid(worldSize, sf::Vector2f(worldSize.x/(10*3), worldSize.y /  ceil( (worldSize.x/(worldSize.x/10))*3 )   ))
+
+
 {
 
 }

@@ -108,3 +108,50 @@ Color Utils::colorLerp(Color col1, Color col2, double percent) {
 
     return res;
 }
+
+/*----------------------------------------------------------------------------*/
+sf::Vector2f Utils::catmull_rom(sf::Vector2f p1, sf::Vector2f p2, sf::Vector2f p3, sf::Vector2f p4, float t) {
+
+  return 0.5 * ( (2*p2) + (-1*p1+p3)*t + (2*p1-5*p2+4*p3-p4)*t*t + (-1*p1+3*p2-3*p3+p4)*t*t*t );
+
+}
+
+
+/*----------------------------------------------------------------------------*/
+sf::Vector2f operator*(sf::Vector2f left, sf::Vector2f right) {
+  return sf::Vector2f(left.x*right.x, left.y*right.y);
+}
+
+/*----------------------------------------------------------------------------*/
+sf::Vector2f operator*(sf::Vector2f left, double right) {
+  return sf::Vector2f(left.x*right, left.y*right);
+}
+
+/*----------------------------------------------------------------------------*/
+sf::Vector2f operator*(double left, sf::Vector2f right) {
+  return right*left;
+}
+
+/*----------------------------------------------------------------------------*/
+sf::Vector2f operator/(sf::Vector2f left, double right) {
+  return sf::Vector2f(left.x/right, left.y/right);
+}
+
+sf::Vector3f operator*(sf::Vector3f left, sf::Vector3f right) {
+  return sf::Vector3f(left.x*right.x, left.y*right.y, left.z*right.z);
+}
+
+/*----------------------------------------------------------------------------*/
+sf::Vector3f operator*(sf::Vector3f left, double right) {
+  return sf::Vector3f(left.x*right, left.y*right, left.z*right);
+}
+
+/*----------------------------------------------------------------------------*/
+sf::Vector3f operator*(double left, sf::Vector3f right) {
+  return right*left;
+}
+
+/*----------------------------------------------------------------------------*/
+sf::Vector3f operator/(sf::Vector3f left, double right) {
+  return sf::Vector3f(left.x/right, left.y/right, left.z/right);
+}

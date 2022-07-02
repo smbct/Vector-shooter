@@ -31,9 +31,7 @@ damping(0.98)
 
 /*----------------------------------------------------------------------------*/
 void PointMass::applyForce(Vector3f force) {
-    acceleration.x += force.x * invMass;
-    acceleration.y += force.y * invMass;
-    acceleration.z += force.z * invMass;
+    acceleration += force * invMass;
 }
 
 /*----------------------------------------------------------------------------*/
@@ -45,27 +43,25 @@ void PointMass::increaseDamping(double factor) {
 void PointMass::update(double elapsedTime) {
 
     velocity += acceleration;
-
     pos += velocity;
 
-    if(Utils::lengthSq(velocity) < 1e-6) {
+    acceleration = sf::Vector3f(0., 0., 0.);
+
+    if(Utils::lengthSq(velocity) < 0.001 * 0.001) {
         velocity = Vector3f(0., 0., 0.);
     }
 
-    velocity.x *= damping;
-    velocity.y *= damping;
-    velocity.z *= damping;
-
+    velocity = velocity * damping;
     damping = 0.98;
 }
 
 /*----------------------------------------------------------------------------*/
 sf::Vector2f PointMass::project(sf::Vector2f size) {
-    double factor = (pos.z+2000.)/2000.;
-    Vector2f res;
-    res.x = (pos.x - size.x/2.)*factor + size.x/2.;
-    res.y = (pos.y - size.y/2.)*factor + size.y/2.;
-    return res;
+  double factor = (pos.z+2000.)/2000.;
+  Vector2f res;
+  res.x = (pos.x - size.x/2.)*factor + size.x/2.;
+  res.y = (pos.y - size.y/2.)*factor + size.y/2.;
+  return res;
 }
 
 
@@ -96,12 +92,11 @@ void Spring::update() {
     double length = Utils::length(delta);
 
     if(length > targetLength) {
-        delta.x = (delta.x/length)*(length-targetLength);
-        delta.y = (delta.y/length)*(length-targetLength);
-        delta.z = (delta.z/length)*(length-targetLength);
+
+        delta = (delta/length)*(length-targetLength);
 
         Vector3f deltaVel = end2.velocity - end1.velocity;
-        Vector3f force(stiffness*delta.x-deltaVel.x*damping, stiffness*delta.y-deltaVel.y*damping, stiffness*delta.z-deltaVel.z*damping);
+        Vector3f force = stiffness*delta-deltaVel*damping;
 
         end1.applyForce(-force);
         end2.applyForce(force);
