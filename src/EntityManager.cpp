@@ -20,7 +20,11 @@ _particleManager(1024*20, *this),
 
 // _grid(worldSize, sf::Vector2f(worldSize.x/(10*3), worldSize.y/int(worldSize.x/(worldSize.x/(10*3)))))
 
-_grid(worldSize, sf::Vector2f(worldSize.x/(10*3), worldSize.y /  ceil( (worldSize.x/(worldSize.x/10))*3 )   ))
+_grid(worldSize, sf::Vector2f(worldSize.x/(15*3), worldSize.y /  ceil( (worldSize.x/(worldSize.x/15))*3 )   )),
+
+_count(0),
+
+_qtree(sf::Vector2i((int)worldSize.x, (int)worldSize.y), 5)
 
 
 {
@@ -85,7 +89,37 @@ void EntityManager::drawEntities(RenderTarget& renderer) {
     /* draw entities */
     for(auto entity : _entities) {
         renderer.draw(*entity);
+
+        // debug draw the bounding box
+        // sf::CircleShape circle;
+        // circle.setRadius(entity->getRadius());
+        // circle.setFillColor(sf::Color(0,0,0,0));
+        // circle.setOutlineColor(sf::Color(255, 255, 255));
+        // circle.setOutlineThickness(2.);
+        // circle.setOrigin(sf::Vector2f(entity->getRadius(), entity->getRadius()));
+        // circle.setPosition(entity->getPosition());
+        // renderer.draw(circle);
+
     }
+
+    // debug: draw the quadtree
+    std::vector<sf::IntRect> rects;
+    _qtree.getFilledRects(rects);
+    sf::RectangleShape shape;
+    shape.setOutlineThickness(2.0);
+    shape.setFillColor(sf::Color(0, 0, 0, 0));
+    shape.setOutlineColor(sf::Color(255,255,255));
+    for(sf::IntRect rect: rects) {
+      shape.setSize(sf::Vector2f(rect.width, rect.height));
+      shape.setPosition(sf::Vector2f(rect.left, rect.top));
+      renderer.draw(shape);
+    }
+
+}
+
+/*----------------------------------------------------------------------------*/
+int EntityManager::count() {
+  return _count;
 }
 
 /******************************************************************************/
@@ -95,6 +129,7 @@ void EntityManager::drawEntities(RenderTarget& renderer) {
 /*----------------------------------------------------------------------------*/
 void EntityManager::addEntity(Entity* entity) {
     _added.push(entity);
+    _count += 1;
 }
 
 
@@ -111,7 +146,15 @@ void EntityManager::update(double elapsedTime) {
 
     _grid.update(elapsedTime);
 
+
+    /* quadtree to optimize collision detection */
+    // _qtree.clear();
+    // for(Entity* entity: _entities) {
+    //   _qtree.insert(entity);
+    // }
+    // _qtree.performCollisions();
     collisions();
+
     removeDead();
 
     /* add created entities */
@@ -155,6 +198,7 @@ void EntityManager::removeDead() {
         if(!(*it)->alive()) {
             rem = true;
             toRem = it;
+            _count --;
         }
 
         it ++;
@@ -174,6 +218,7 @@ void EntityManager::removeDead() {
         if(!(*it)->alive()) {
             rem = true;
             toRem = it;
+            _count --;
         }
 
         it ++;

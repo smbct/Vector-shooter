@@ -50,6 +50,12 @@ _cursor(_textureManager.getTexture("Art/Pointer.png"))
 /*----------------------------------------------------------------------------*/
  void Game::run() {
 
+   // debug var
+   int cpt = 0;
+   float val = 0.;
+
+   sf::Clock clock;
+
     while(_window.isOpen()) {
 
         /* manage window events */
@@ -65,7 +71,20 @@ _cursor(_textureManager.getTexture("Art/Pointer.png"))
         }
 
         /* exec game loop */
+
+        clock.restart();
+
         loop();
+
+        if(cpt < 1000) {
+          double etime = clock.getElapsedTime().asMicroseconds();
+          val += etime/_entityManager.count();
+          cpt ++;
+        } else if(cpt == 1000) {
+          cout << val << endl;
+          cpt ++;
+        }
+        // cout << _entityManager.count() << endl;
 
         /* display the game */
         draw();
@@ -96,6 +115,9 @@ void Game::loop() {
 
         /* entities event */
         _entityManager.update(_timeStep);
+
+        _enemySpawner.update();
+
     }
 
     /* display the score */

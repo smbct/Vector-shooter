@@ -88,19 +88,12 @@ void Player::update(double elapsedTime) {
         _fire = false;
     }
 
-    if(!_alive) {
-      // GameRoot.Grid.ApplyDirectedForce(new Vector3(0, 0, 5000), new Vector3(Position, 0), 50);
-
-
-
-    }
-
 }
 
 /*----------------------------------------------------------------------------*/
 void Player::collideWith(const Entity& entity) {
     if(entity.type() != Entity::Bullet) {
-        _alive = false;
+        // _alive = false;
         createExplosion();
         _entityManager.getGrid().applyDirectedForce(sf::Vector3f(0,0,2000), sf::Vector3f(getPosition().x, getPosition().y, 0.), 50);
     }

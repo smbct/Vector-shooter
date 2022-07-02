@@ -43,6 +43,10 @@ Entity::Type Entity::type() const {
     return _type;
 }
 
+float Entity::getRadius() {
+  return _radius;
+}
+
 /******************************************************************************/
 /*----------------------------------modifiers---------------------------------*/
 /******************************************************************************/
@@ -93,4 +97,20 @@ bool Entity::collision(const Entity& left, const Entity& right) {
     res = (distSq <= distMin*distMin);
 
     return res;
+}
+
+
+bool Entity::insideRect(Entity& entity, sf::Vector2i corner, sf::Vector2i dimensions) {
+
+  auto pos = entity.getPosition();
+
+  bool res = false;
+
+  if( (pos.x-entity._radius >= corner.x) && (pos.x+entity._radius <= corner.x+dimensions.x)) {
+    if( (pos.y-entity._radius >= corner.y) && (pos.y+entity._radius <= corner.y+dimensions.y)) {
+      res = true;
+    }
+  }
+
+  return res;
 }

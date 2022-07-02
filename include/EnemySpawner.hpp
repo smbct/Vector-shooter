@@ -21,9 +21,17 @@ class EnemySpawner {
     public:
         EnemySpawner(EntityManager& entityManager, ScoreManager& scoreManager);
 
+        void update();
+
+        void reset();
+
     private:
+      sf::Vector2f getSpawnPosition();
+
         EntityManager& _entityManager;
         ScoreManager& _scoreManager;
+
+        float _inverseSpawnChance;
 
 };
 

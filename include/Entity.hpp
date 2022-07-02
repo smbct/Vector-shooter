@@ -62,6 +62,11 @@ class Entity : public sf::Sprite {
          */
         Type type() const;
 
+        /*!
+         * \brief get the radius of the entity
+         */
+        float getRadius();
+
     public:
 
         /*!
@@ -71,6 +76,11 @@ class Entity : public sf::Sprite {
          * \return true if the two entities collide
          */
         static bool collision(const Entity& left, const Entity& right);
+
+        /*!
+         * \brief return true if the entity is completly contained in the rect
+         */
+         static bool insideRect(Entity& entity, sf::Vector2i corner, sf::Vector2i dimensions);
 
     protected:
         EntityManager& _entityManager;

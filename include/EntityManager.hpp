@@ -16,6 +16,8 @@
 #include "ParticleManager.hpp"
 #include "WarpingGrid.hpp"
 
+#include "QuadTree.hpp"
+
 /*!
  * \class EntityManager
  * \brief manage all entites of the game
@@ -76,6 +78,8 @@ class EntityManager {
          */
         ~EntityManager();
 
+        int count();
+
     private:
 
         void collisions();
@@ -93,6 +97,9 @@ class EntityManager {
         std::list<Entity*> _blackHoles;
         ParticleManager _particleManager;
         Grid _grid;
+        int _count;
+
+        QuadTree _qtree;
 
 };
 

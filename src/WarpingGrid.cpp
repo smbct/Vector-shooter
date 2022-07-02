@@ -19,7 +19,7 @@ using namespace sf;
 Grid::Grid(sf::Vector2f size, sf::Vector2f space)
 {
     _nbCols = static_cast<int>(size.x / space.x) + 2;
-    _nbRows = static_cast<int>(size.y / space.y) + 1;
+    _nbRows = static_cast<int>(size.y / space.y) + 2;
 
     _points = new PointMass*[_nbRows*_nbCols];
     _fixedPoints = new PointMass*[_nbRows*_nbCols];
